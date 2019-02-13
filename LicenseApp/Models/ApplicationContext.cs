@@ -22,7 +22,7 @@ namespace LicenseApp.Models
 
             builder.Entity<License>().Property(e => e.Name).HasMaxLength(150);
             builder.Entity<License>().Property(e => e.UserId).HasMaxLength(450).IsRequired();
-            builder.Entity<User>().HasMany(u => u.Licenses).WithOne(l => l.User).HasForeignKey(e => e.UserId);
+            builder.Entity<User>().HasMany(u => u.Licenses).WithOne(l => l.User).IsRequired().HasForeignKey(e => e.UserId);
         }
 
     }
