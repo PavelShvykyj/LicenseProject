@@ -1,10 +1,15 @@
+using LicenseApp.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LicenseApp
 {
@@ -20,6 +25,49 @@ namespace LicenseApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddAuthentication(
+                option => {
+                    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    option.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                }
+
+
+                ).AddJwtBearer(
+                options => {
+                    // тут выставл€ем параметры схемы аутитетификации их куча
+                    // одна из настроек параметры проверки токена вот ее и настраиваем остальные по умолчанию
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        // по сути задаем парами что провер€ть и правильное значение (кроме времени жизни значение времени жизни дл€ каждого екземпл€ра)  
+
+                        // провер€ть издател€ токена т.е. нас (TokenValidateOptions впомогательный класс создан руками )
+                        ValidateAudience = false,
+                        ValidateIssuer = true,
+                        ValidIssuer = TokenValidateOptions.ISSUER,
+
+                        // провер€ть врем€ жизни     
+                        ValidateLifetime = true,
+
+                        // утанавивать провер€ть ли секретный ключ дл€ шифрофани€ (последн€€ часть токена signature проврочна€ зашифрованна€ строка)
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = TokenValidateOptions.GetSymmetricSecurityKey()
+                    };
+                }
+                );
+
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
@@ -46,6 +94,8 @@ namespace LicenseApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
