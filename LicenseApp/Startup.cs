@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using AutoMapper;
+
 
 namespace LicenseApp
 {
@@ -33,6 +36,9 @@ namespace LicenseApp
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddAutoMapper();
+
+            var jwtsettings = Configuration.GetSection("jwtsettings");
             services.AddAuthentication(
                 option => {
                     option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -50,18 +56,19 @@ namespace LicenseApp
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         // по сути задаем парами что провер€ть и правильное значение (кроме времени жизни значение времени жизни дл€ каждого екземпл€ра)  
-
+                        
                         // провер€ть издател€ токена т.е. нас (TokenValidateOptions впомогательный класс создан руками )
                         ValidateAudience = false,
                         ValidateIssuer = true,
-                        ValidIssuer = TokenValidateOptions.ISSUER,
+                        //Configuration.GetSection("jwtsettings").GetValue("ISSUER")
+                        ValidIssuer = jwtsettings.GetValue<string>("ISSUER"),// Configuration["jwtsettings:ISSUER"],
 
                         // провер€ть врем€ жизни     
                         ValidateLifetime = true,
 
                         // утанавивать провер€ть ли секретный ключ дл€ шифрофани€ (последн€€ часть токена signature проврочна€ зашифрованна€ строка)
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = TokenValidateOptions.GetSymmetricSecurityKey()
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtsettings.GetValue<string>("KEY")))
                     };
                 }
                 );

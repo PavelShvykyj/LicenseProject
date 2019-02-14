@@ -7,7 +7,7 @@ namespace LicenseApp.Models
 {
     public class ApplicationContext : IdentityDbContext<User>
     {
-        public DbSet<License> Licenses { get; set; }
+        public DbSet<License> Licenses { get; set; }       
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
