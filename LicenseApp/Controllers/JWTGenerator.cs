@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LicenseApp.Controllers
 {
-    public class JWTGenerator
+    public class JWTGenerator : IJWTGenerator
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;

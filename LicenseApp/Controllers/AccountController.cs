@@ -21,8 +21,9 @@ namespace LicenseApp.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _autoMapper;
         private readonly ApplicationContext _context;
+        private readonly IJWTGenerator _jwtgenerator;
 
-        public AccountController(ApplicationContext context, IConfiguration configuration, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager , IMapper autoMapper )
+        public AccountController(IJWTGenerator jWTGenerator, ApplicationContext context, IConfiguration configuration, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager , IMapper autoMapper )
 
         {
             _userManager = userManager;
@@ -31,20 +32,47 @@ namespace LicenseApp.Controllers
             _signInManager = signInManager;
             _autoMapper = autoMapper;
             _context = context;
+            _jwtgenerator = jWTGenerator;
         }
 
+        private async Task<bool> SeedRoles(List<string> RoleNames )
+        {
+            foreach (var RoleName in RoleNames)
+            {
+                var RoleExist = await _roleManager.RoleExistsAsync(RoleName);
+                if (!RoleExist)
+                {
+                    var Role = new IdentityRole(RoleName);
+                    var Res  = await _roleManager.CreateAsync(Role);
+                    if (!Res.Succeeded)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }  
+
+            
 
         [HttpPost]
         [Route("/api/seedsartaccountdata")]
         public async Task<IActionResult> AccountDefoults()
         {
-            var AdminRoleName = "Administrator";
-            var AdminRoleExist = await _roleManager.RoleExistsAsync(AdminRoleName);
-            if (!AdminRoleExist)
+            ///// Заполняем роли
+            var RoleNames = new List<string>();
+            RoleNames.Add("Administrator");
+            RoleNames.Add("Manager");
+            RoleNames.Add("LicenseUser");
+            var rolesCreated  = await SeedRoles(RoleNames);
+            if (!rolesCreated)
             {
-                var AdminRole = new IdentityRole(AdminRoleName);
-                await _roleManager.CreateAsync(AdminRole);
+                return BadRequest("Roles not created ...");
             }
+
+
+            ///// Создаем админа
+            var AdminRoleName = "Administrator";
             var AdminAccountExist = false;
             var usersArray =  _userManager.Users.ToArray<User>();
             foreach (var user in usersArray)
@@ -85,20 +113,16 @@ namespace LicenseApp.Controllers
             {
                 return BadRequest(ModelState);
             }
-                
-            //// первый вариант проверяем одним запросом но плохо не используем механизмы библиотеки 
-            //var currUser = await _userManager.Users.Where(u => u.Email == loginResourse.login |
-            //u.UserName == loginResourse.login |
-            //u.PhoneNumber == loginResourse.login).FirstOrDefaultAsync();                                                  
 
-            var currUser = await _userManager.FindByEmailAsync(loginResourse.login);
+            //// первый вариант проверяем одним запросом но плохо не используем механизмы библиотеки 
+            //// второй вариант последовательно  FindByEmailAsync,FindByNameAsync  и проверки результатов var currUser = await _userManager.FindByEmailAsync(loginResourse.login);
+            var currUser = await _userManager.Users.Where(u => u.Email == loginResourse.login |
+            u.UserName == loginResourse.login |
+            u.PhoneNumber == loginResourse.login).FirstOrDefaultAsync();
+
             if (currUser == null)
             {
-                currUser = await _userManager.FindByNameAsync(loginResourse.login);
-                if (currUser == null)
-                {
-                    return Unauthorized();
-                }
+                return Unauthorized();
             }
                             
             var resoult = await _signInManager.PasswordSignInAsync(currUser, loginResourse.password, false, false);
@@ -107,8 +131,7 @@ namespace LicenseApp.Controllers
                 return Unauthorized();
             }
 
-            var tokenGenerator = new JWTGenerator(_configuration,_userManager,_roleManager);
-            var token = await tokenGenerator.GenerateJwtToken(currUser);
+            var token = await _jwtgenerator.GenerateJwtToken(currUser);
             return Ok(token);
         }
     }
