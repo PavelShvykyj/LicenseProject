@@ -8,17 +8,32 @@
       </button>
       <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]='{"show": isExpanded}'>
         <ul class="navbar-nav flex-grow">
-          <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+          <li class="nav-item" routerLinkActive="link-active" [routerLinkActiveOptions]='{ exact: true }'>
             <a class="nav-link text-dark" [routerLink]='["/"]'>Home</a>
           </li>
-          <li class="nav-item" [routerLinkActive]='["link-active"]'>
-            <a class="nav-link text-dark" [routerLink]='["/counter"]'>Counter</a>
+          
+          <li *ngIf="!AccService.isLoggedIn()" class="nav-item" routerLinkActive="link-active" [routerLinkActiveOptions]='{ exact: true }'>
+            <a class="nav-link text-dark" [routerLink]='["/login"]'>login</a>
           </li>
-          <li class="nav-item" [routerLinkActive]='["link-active"]'>
-            <a class="nav-link text-dark" [routerLink]='["/fetch-data"]'>Fetch data</a>
+          
+          <li *ngIf="AccService.isLoggedIn()" class="nav-item" routerLinkActive="link-active" [routerLinkActiveOptions]='{ exact: true }'>
+            <a class="nav-link text-dark" [routerLink]='["/logout"]'>logout</a>
           </li>
+        
+        
+        
         </ul>
+      
+        
+        <span *ngIf="AccService.User" id="loggDataText"  class="navbar-text"> 
+          logged as {{ AccService.User.UserName}} 
+        </span>
+
+      
       </div>
+    
+    
+    
     </div>
   </nav>
 </header>

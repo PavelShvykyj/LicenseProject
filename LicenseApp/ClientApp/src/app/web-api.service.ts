@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class WebApiService {
-  private BASE_URL : string = "https://localhost:44308/api/";
+  private BASE_URL : string = "/api";
 
   constructor(private http : HttpClient ) { }
 
@@ -23,9 +23,5 @@ export class WebApiService {
     }).toPromise();
 
     return request;
-
   }
-
-
-
 }

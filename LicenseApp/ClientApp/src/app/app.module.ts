@@ -1,7 +1,7 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -41,11 +41,10 @@ import { CoWokersComponent } from './co-wokers/co-wokers.component';
     MessagesComponent
   ],
   
-  
-  
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+    ReactiveFormsModule,
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -54,12 +53,13 @@ import { CoWokersComponent } from './co-wokers/co-wokers.component';
       { path: 'login', component: LoginComponent },
       { path: 'logout', component: LogoutComponent },
       { path: 'users', component: CoWokersComponent, canActivate : [AdminGuard] },
-      { path: 'user', component: CoWokerComponent, canActivate : [AdminGuard]},
+      { path: 'user/:userId', component: CoWokerComponent, canActivate : [AdminGuard]},
       { path: 'licenses', component: LicensesComponent, canActivate : [AuthGuard]  },
-      { path: 'license', component: LicenseComponent, canActivate : [AuthGuard]   },
+      { path: 'license/:licenseId', component: LicenseComponent, canActivate : [AuthGuard]   },
 
-
-    ])
+    ]
+    //, {useHash : true} 
+    )
   ],
   
   providers : [WebApiService,

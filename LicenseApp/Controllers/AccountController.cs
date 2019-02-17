@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using LicenseApp.Controllers.Resourses;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace LicenseApp.Controllers
 {
@@ -51,9 +52,32 @@ namespace LicenseApp.Controllers
                 }
             }
             return true;
-        }  
+        }
 
-            
+        private async Task<bool> CreateUser(User user, string password, string userRole)
+        {
+            var result = await _userManager.CreateAsync(user, password);
+            if (!result.Succeeded)
+                return false;
+
+            var adminAccount = await _userManager.FindByNameAsync(user.UserName);
+
+            result = await _userManager.AddToRoleAsync(adminAccount, userRole);
+            if (!result.Succeeded)
+                return false;
+
+            var userCaims = new List<Claim>
+                {
+                    new Claim("Email", user.Email),
+                    new Claim("UserName", user.UserName),
+                    new Claim("PhoneNumber", user.PhoneNumber)
+                };
+            result = await _userManager.AddClaimsAsync(adminAccount, userCaims);
+            if (!result.Succeeded)
+                return false;
+
+            return true;
+        }
 
         [HttpPost]
         [Route("/api/seedsartaccountdata")]
@@ -72,6 +96,7 @@ namespace LicenseApp.Controllers
 
 
             ///// Создаем админа
+           
             var AdminRoleName = "Administrator";
             var AdminAccountExist = false;
             var usersArray =  _userManager.Users.ToArray<User>();
@@ -93,15 +118,16 @@ namespace LicenseApp.Controllers
                     UserName = AdminRoleName,
                     PhoneNumber = "+80509999999"
                 };
-
                 var defaultAdminPassword = "Abc123!";
+                var result = await CreateUser(defoultAdmin, defaultAdminPassword, AdminRoleName);
 
-                await _userManager.CreateAsync(defoultAdmin, defaultAdminPassword);
-                var adminAccount = await _userManager.FindByNameAsync(AdminRoleName);
-                await _userManager.AddToRoleAsync(adminAccount, AdminRoleName);
+                if (result)
+                    return Ok("Created... Login and change password");
+                return BadRequest("Somthing wrong ... ");
             }
-            
-            return Ok("Created... Login and change password");
+            return Ok();
+
+
         }
 
         [HttpPost]

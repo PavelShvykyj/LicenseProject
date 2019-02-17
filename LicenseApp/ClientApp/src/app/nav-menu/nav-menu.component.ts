@@ -1,3 +1,4 @@
+import { AccauntService } from './../accaunt.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,6 +8,10 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = false;
+
+  constructor(private AccService : AccauntService) {}
+
+  
 
   collapse() {
     this.isExpanded = false;

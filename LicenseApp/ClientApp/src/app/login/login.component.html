@@ -1,3 +1,31 @@
-<p>
-  login works!
-</p>
+<form [formGroup]="form" (submit)="Login()">
+  <div class="form-group">
+    <label for="loginInput">Login by email, name or phone</label>
+    <input formControlName="login" id="loginInput" name="login" type="text" placeholder="Enter email , login or phone"
+      class="form-control" [ngClass]="{'is-valid': LoginControl.touched && LoginControl.valid,
+                       'is-invalid': LoginControl.touched && LoginControl.invalid 
+                      }">
+    <div *ngIf="LoginControl.touched && LoginControl.invalid" class="invalid-feedback">
+      <div *ngIf="LoginControl.errors.required"> Укажите не пустой логин </div>
+      <div *ngIf="LoginControl.errors.notCorrect"> Логин или пароль не прошел проверку </div>
+    </div>
+
+
+  </div>
+  <div class="form-group">
+    <label for="loginInputPassword">Password</label>
+    <input formControlName="password" id="loginInputPassword" name="password" type="password" placeholder="Enter your password"
+      aria-describedby="passwordHelp" class="form-control" [ngClass]="{'is-valid': PasswordControl.touched && PasswordControl.valid,
+                       'is-invalid': PasswordControl.touched && PasswordControl.invalid 
+                      }">
+    <small id="passwordHelp" class="form-text text-muted">Никому не сообщайте Ваш пароль</small>
+    <div *ngIf="PasswordControl.touched && PasswordControl.invalid" class="invalid-feedback">
+      <div *ngIf="PasswordControl.errors.required"> Укажите не пустой пароль </div>
+      <div *ngIf="PasswordControl.errors.notCorrect"> Логин или пароль не прошел проверку </div>
+    </div>
+
+
+
+  </div>
+  <button [disabled]="form.invalid" type="submit" class="btn btn-dark">Submit</button>
+</form>
