@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace LicenseApp.Models
 {
@@ -9,10 +10,12 @@ namespace LicenseApp.Models
         public User()
             :base()
         {
-            Licenses = new List<License>();
+            Licenses = new Collection<License>();
+            
         }
 
-        public List<License> Licenses { get; set; }
+        public ICollection<License> Licenses { get; set; }
         public string Organisation { get; set; }
+        
     }
 }

@@ -1,7 +1,7 @@
 <form [formGroup]="form" (submit)="Login()">
   <div class="form-group">
     <label for="loginInput">Login by email, name or phone</label>
-    <input formControlName="login" id="loginInput" name="login" type="text" placeholder="Enter email , login or phone"
+    <input (focus) = "OnFocus(LoginControl)" formControlName="login" id="loginInput" name="login" type="text" placeholder="Enter email , login or phone"
       class="form-control" [ngClass]="{'is-valid': LoginControl.touched && LoginControl.valid,
                        'is-invalid': LoginControl.touched && LoginControl.invalid 
                       }">
@@ -14,7 +14,7 @@
   </div>
   <div class="form-group">
     <label for="loginInputPassword">Password</label>
-    <input formControlName="password" id="loginInputPassword" name="password" type="password" placeholder="Enter your password"
+    <input (focus) = "OnFocus(PasswordControl)" formControlName="password" id="loginInputPassword" name="password" type="password" placeholder="Enter your password"
       aria-describedby="passwordHelp" class="form-control" [ngClass]="{'is-valid': PasswordControl.touched && PasswordControl.valid,
                        'is-invalid': PasswordControl.touched && PasswordControl.invalid 
                       }">

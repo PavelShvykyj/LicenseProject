@@ -1,3 +1,16 @@
-<p>
-  co-wokers works!
-</p>
+<div class="container-fluid">
+  <!-- #region panel-->
+  <div  class="row align-items-center py-1">
+    <div  class="col  align-self-left">
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-secondary">Update</button>
+      <button type="button" class="btn btn-secondary">New</button>
+      <button type="button" class="btn btn-secondary">Somthing else</button>
+    </div>
+  </div>
+  </div>
+  
+  <ng-container *ngFor="let User of Users"> 
+    <app-co-woker [User] = "User" ></app-co-woker>
+  </ng-container>
+</div>

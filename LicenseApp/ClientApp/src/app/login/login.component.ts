@@ -1,4 +1,4 @@
-import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { AccauntService } from './../accaunt.service';
 import { Component, OnInit } from '@angular/core';
 import { ILoginData } from '../Interfaces/ILoginData';
@@ -42,22 +42,12 @@ export class LoginComponent implements OnInit {
     } else {
       this.LoginControl.setErrors({"notCorrect" : true});
       this.PasswordControl.setErrors({"notCorrect" : true});
-      console.log('set errors');
     }
-
   }
 
-  async  FakeLogin() {
-    
-    
-    let fakeloggdata : ILoginData = {
-      login : "Administrator",
-      password : "Abc123!"
-    }
-    await this.AccSevise.Login(fakeloggdata);
-    if (this.AccSevise.isLoggedIn()) {
-      this.Router.navigate(['']);
-    }
+  OnFocus(Control : AbstractControl) {
+    /// Сбросим ошибку проверки на фокусе
+    Control.setErrors(null);
   }
 
 }

@@ -20,6 +20,9 @@
             <a class="nav-link text-dark" [routerLink]='["/logout"]'>logout</a>
           </li>
         
+          <li *ngIf="AccService.isInRole(0) || true" class="nav-item" routerLinkActive="link-active" [routerLinkActiveOptions]='{ exact: true }'>
+            <a class="nav-link text-dark" [routerLink]='["/users"]'>Users</a>
+          </li>
         
         
         </ul>

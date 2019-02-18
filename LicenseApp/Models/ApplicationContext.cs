@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -7,7 +8,10 @@ namespace LicenseApp.Models
 {
     public class ApplicationContext : IdentityDbContext<User>
     {
-        public DbSet<License> Licenses { get; set; }       
+        public DbSet<License> Licenses { get; set; }
+        
+        
+
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
@@ -20,9 +24,13 @@ namespace LicenseApp.Models
         {
             base.OnModelCreating(builder);
 
+            
+            
+
             builder.Entity<License>().Property(e => e.Name).HasMaxLength(150);
             builder.Entity<License>().Property(e => e.UserId).HasMaxLength(450).IsRequired();
             builder.Entity<User>().HasMany(u => u.Licenses).WithOne(l => l.User).IsRequired().HasForeignKey(e => e.UserId);
+       
         }
 
     }

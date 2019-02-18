@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ISignInResource } from '../Interfaces/IUserData';
 
 @Component({
   selector: 'app-co-woker',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./co-woker.component.css']
 })
 export class CoWokerComponent implements OnInit {
+
+  @Input("User") User : ISignInResource;
 
   constructor() { }
 

@@ -29,6 +29,12 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190213160050_SetUserequiredInLicesa.cs" />
     <Compile Remove="Migrations\20190213160050_SetUserequiredInLicesa.Designer.cs" />
+    <Compile Remove="Migrations\20190218131417_AddUserRolesInDbContext.cs" />
+    <Compile Remove="Migrations\20190218131417_AddUserRolesInDbContext.Designer.cs" />
+    <Compile Remove="Migrations\20190218132630_AddUserRolesInDbContext.cs" />
+    <Compile Remove="Migrations\20190218132630_AddUserRolesInDbContext.Designer.cs" />
+    <Compile Remove="Migrations\20190218133142_AddUserRolesInDbContext.cs" />
+    <Compile Remove="Migrations\20190218133142_AddUserRolesInDbContext.Designer.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

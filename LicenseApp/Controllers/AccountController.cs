@@ -160,5 +160,21 @@ namespace LicenseApp.Controllers
             var token = await _jwtgenerator.GenerateJwtToken(currUser);
             return Ok(token);
         }
+
+        [HttpGet]
+        [Route("/api/users")]
+        public async Task<IActionResult> GetUsers()
+        {
+
+            var quer = from u  in _context.Users
+                      join ur in _context.UserRoles on u.Id equals ur.UserId
+                      join r  in _context.Roles on ur.RoleId equals r.Id into rol
+                      select new { Id = u.Id, SignIn = new { UserName = u.UserName, Email = u.Email, PhoneNumber = u.PhoneNumber } , Roles =  rol.Select(rl =>  rl.Name) };
+
+            var res = await quer.ToListAsync();
+
+            return Ok(res);
+        }
+
     }
 }

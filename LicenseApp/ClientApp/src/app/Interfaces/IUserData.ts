@@ -4,3 +4,17 @@ export interface IUserJWTData {
   PhoneNumber : string,
   role : string | Array<string>
 }
+
+export interface  ISignIn {
+	UserName      : string,
+	Email         : string,
+	PhoneNumber   : string,
+	PersonName?    : string,
+	Organization?  : string
+}
+
+export interface ISignInResource {
+        Id : string,
+        SignIn : ISignIn,
+        Roles  : Array<string>
+}
