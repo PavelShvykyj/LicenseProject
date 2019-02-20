@@ -23,6 +23,8 @@ import { LicensesComponent } from './licenses/licenses.component';
 import { CoWokerComponent } from './co-woker/co-woker.component';
 import { CoWokersComponent } from './co-wokers/co-wokers.component';
 import { RemoveSymbolsDirective } from './directives/remove-symbols.directive';
+import { DisableFormcontrolDirective } from './directives/disable-formcontrol.directive';
+import { CoWokerRolesComponent } from './co-woker-roles/co-woker-roles.component';
 
 
 
@@ -40,7 +42,9 @@ import { RemoveSymbolsDirective } from './directives/remove-symbols.directive';
     LicensesComponent,
     LicenseComponent,
     MessagesComponent,
-    RemoveSymbolsDirective
+    RemoveSymbolsDirective,
+    DisableFormcontrolDirective,
+    CoWokerRolesComponent
   ],
   
   imports: [

@@ -1,0 +1,36 @@
+<div class="row border border-secondary bg bg-light align-items-center p-0 my-1">
+  <div class="col-11  align-self-center">
+    <form [formGroup] = form class=" p-2">
+      <div class="form-check">
+        <input formControlName="Administrator" class="form-check-input" type="checkbox" id="Administrator">
+        <label class="form-check-label" for="Administrator">Administrator</label>
+      </div>
+      <div class="form-check">
+        <input formControlName="Manager" class="form-check-input" type="checkbox" id="Manager">
+        <label class="form-check-label" for="Manager">Manager</label>
+      </div>
+      <div class="form-check">
+        <input formControlName="LicenseUser"  class="form-check-input" type="checkbox" id="LicenseUser">
+        <label class="form-check-label" for="LicenseUser">LicenseUser </label>
+      </div>
+    </form>
+  </div>
+ 
+  <div class="col-1 p-0 m-0 align-self-start bg bg-secondary ">
+    <div class="container-fluid d-flex flex-column align-items-stretch align-self-sm-start p-0" >
+      <button class="btn btn-dark p-0" type="button" (click)="SaveChanges()">
+        <i class="fas fa-tablet-alt text-center" ></i>
+      </button>
+      <button class="btn  btn-dark p-0" type="button" (click)="UndoChanges()">
+        <i class="fas fa-undo text-center"></i>
+      </button>
+      <button class="btn  btn-secondary p-0 disabled" type="button" >
+          <i class="fas"></i> 
+      </button>
+      <button class="btn  btn-secondary p-0 disabled" type="button" >
+          <i class="fas"></i> 
+      </button>
+    </div>
+  </div>
+
+</div>

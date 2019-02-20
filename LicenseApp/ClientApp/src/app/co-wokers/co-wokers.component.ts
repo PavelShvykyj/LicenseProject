@@ -20,24 +20,29 @@ export class CoWokersComponent implements OnInit {
       .catch(error => {console.log('get users error ',error)});
   }
 
+  GetFakeUser(id) : ISignInResource  {
+
+    let fakeUser : ISignInResource = {
+      Id : id,
+      SignIn : {
+        UserName : "Fake",
+        Email : "Fake@Fake",
+        PhoneNumber : "+380509999999"
+      },
+      Roles : [UserRoles[UserRoles.Administrator]]
+   } 
+   return fakeUser;
+  }
+
   ngOnInit() {
      //this.Update()
-     let fakeUser : ISignInResource = {
-        Id : "1",
-        SignIn : {
-          UserName : "Fake",
-          Email : "Fake@Fake",
-          PhoneNumber : "+380509999999"
-        },
-        Roles : [UserRoles[UserRoles.Administrator]]
-     } 
 
-     this.Users.push(fakeUser);
-     this.Users.push(fakeUser);
-     this.Users.push(fakeUser);
-     this.Users.push(fakeUser);
-     this.Users.push(fakeUser);
-     this.Users.push(fakeUser);
+     this.Users.push(this.GetFakeUser(1));
+     this.Users.push(this.GetFakeUser(2));
+     this.Users.push(this.GetFakeUser(3));
+     this.Users.push(this.GetFakeUser(4));
+     this.Users.push(this.GetFakeUser(5));
+     this.Users.push(this.GetFakeUser(6));
 
   }
 

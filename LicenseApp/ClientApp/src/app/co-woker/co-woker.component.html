@@ -4,21 +4,27 @@
  
   <div class="col-8  align-self-center">
    
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="">Contact</span>
+      <div class="input-group" >
+        <div class="input-group-prepend" >
+          <span [ngClass]="{'text-danger': isDeleted,  'bg-dark': isDeleted}" class="input-group-text" id="">Contact</span>
+          <span [ngClass]="{'text-danger': isDeleted,  'bg-dark': isDeleted}" *ngIf="isDeleted" class="input-group-text" id="">Deleted</span>
         </div>
-        <input formControlName="Email" [RemoveSymbols]="[' ', ';']" type="email" class="form-control" placeholder="Email">
-        <input formControlName="UserName" [RemoveSymbols]="[' ']" type="text" class="form-control" placeholder="UserName">
-        <input formControlName="PhoneNumber" [RemoveSymbols]="[' ', '-']" type="tel" class="form-control" placeholder="PhoneNumber">
+        <input formControlName="Id" hidden  type="text" class="form-control" placeholder="Id">
+        <!-- disableControl - наша директива, применяется для блокирования форм контролов почему так см в саму директиву-->
+        <input [disableControl]="inDisabledState" formControlName="Email" [RemoveSymbols]="[' ']" type="email" class="form-control" placeholder="Email">
+        <input [disableControl]="inDisabledState" formControlName="UserName" [RemoveSymbols]="[' ']" type="text" class="form-control" placeholder="UserName">
+        <input [disableControl]="inDisabledState" formControlName="PhoneNumber" [RemoveSymbols]="[' ', '-', '\\)', '\\(']" type="tel" class="form-control" placeholder="PhoneNumber">
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button">
-            <i class="fas fa-pen"></i>
+          <button class="btn btn-outline-secondary" type="button" (click) = "ChangeOrUndo()">
+            <i  class="fas" [ngClass]="{'fa-pen': inDisabledState,
+                                        'fa-undo': !inDisabledState}">
+            </i>
           </button>
-          <button class="btn btn-outline-secondary" type="button">
+         
+          <button [disabled]="inDisabledState" class="btn btn-outline-secondary" type="button" (click)="MarkDeleted()">
               <i class="fas fa-trash"></i>
           </button>
-          <button class="btn btn-outline-secondary" type="button">
+          <button [disabled]="inDisabledState" class="btn btn-outline-secondary" type="button" (click)="SaveCanges()" >
               <i class="fas fa-tablet-alt"></i>
           </button>
 
@@ -30,18 +36,26 @@
 
   <!-- #region ROLES-->
   <div  class="col-4  align-self-center">
-    <div class="input-group">
+    <div [hidden] = "!inDisabledStateRoles" class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text" id="">Roles</span>
       </div>
-      <input type="text" class="form-control" placeholder="Roles">
+      <input disabled type="text" class="form-control" placeholder="Roles" [value]="User.Roles.toString()">
     
       <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button">
+          <button [disabled]="inDisabledState" class="btn btn-outline-secondary" type="button" (click)="SwichDisableStateRoles()">
               <i class="fas fa-pen"></i>
           </button>
-        </div>
+       </div>
     </div>
+    
+    <co-woker-roles *ngIf="!inDisabledStateRoles" 
+                    [Id]="User.Id" 
+                    [Roles]="User.Roles"
+                    (Undo) = "SwichDisableStateRoles()"
+                    (Save) = "OnSaveRoleChanges($event)"
+                    
+                    ></co-woker-roles>
   </div>
 </div>
 </form>

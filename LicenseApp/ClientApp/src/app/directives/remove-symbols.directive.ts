@@ -16,7 +16,6 @@ export class RemoveSymbolsDirective {
     this.RemoveSymbols.forEach(symbol => {
       value = value.replace(RegExp(symbol,'g') ,  "");
     });
-
     this.el.nativeElement.value = value;
   }
 

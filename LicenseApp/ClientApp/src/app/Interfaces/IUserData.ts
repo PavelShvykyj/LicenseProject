@@ -16,5 +16,6 @@ export interface  ISignIn {
 export interface ISignInResource {
         Id : string,
         SignIn : ISignIn,
+        Password? : string,
         Roles  : Array<string>
 }
