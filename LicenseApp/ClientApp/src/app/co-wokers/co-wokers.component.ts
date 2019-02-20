@@ -1,7 +1,7 @@
 import { WebApiService } from './../web-api.service';
 import { Component, OnInit } from '@angular/core';
-import { error } from 'util';
 import { ISignInResource } from '../Interfaces/IUserData';
+import { UserRoles } from '../GlobalEnums';
 
 @Component({
   selector: 'app-co-wokers',
@@ -10,7 +10,7 @@ import { ISignInResource } from '../Interfaces/IUserData';
 })
 export class CoWokersComponent implements OnInit {
 
-  Users : Array<ISignInResource>;
+  Users : Array<ISignInResource> = [];
 
   constructor(private ApiService : WebApiService ) { }
 
@@ -21,7 +21,24 @@ export class CoWokersComponent implements OnInit {
   }
 
   ngOnInit() {
-     this.Update()
+     //this.Update()
+     let fakeUser : ISignInResource = {
+        Id : "1",
+        SignIn : {
+          UserName : "Fake",
+          Email : "Fake@Fake",
+          PhoneNumber : "+380509999999"
+        },
+        Roles : [UserRoles[UserRoles.Administrator]]
+     } 
+
+     this.Users.push(fakeUser);
+     this.Users.push(fakeUser);
+     this.Users.push(fakeUser);
+     this.Users.push(fakeUser);
+     this.Users.push(fakeUser);
+     this.Users.push(fakeUser);
+
   }
 
 }

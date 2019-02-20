@@ -1,33 +1,47 @@
+<form [formGroup]="form">
 <div  class="row align-items-center">
   <!-- #region UserContact-->
-  <div  class="col-8  align-self-center">
-    <div class="input-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="">Contact</span>
+ 
+  <div class="col-8  align-self-center">
+   
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="">Contact</span>
+        </div>
+        <input formControlName="Email" [RemoveSymbols]="[' ', ';']" type="email" class="form-control" placeholder="Email">
+        <input formControlName="UserName" [RemoveSymbols]="[' ']" type="text" class="form-control" placeholder="UserName">
+        <input formControlName="PhoneNumber" [RemoveSymbols]="[' ', '-']" type="tel" class="form-control" placeholder="PhoneNumber">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button">
+            <i class="fas fa-pen"></i>
+          </button>
+          <button class="btn btn-outline-secondary" type="button">
+              <i class="fas fa-trash"></i>
+          </button>
+          <button class="btn btn-outline-secondary" type="button">
+              <i class="fas fa-tablet-alt"></i>
+          </button>
+
+
+        </div>
       </div>
-      <input type="text" class="form-control" placeholder="Name">
-      <input type="text" class="form-control" placeholder="Mail">
-      <input type="text" class="form-control" placeholder="Phone">
-    
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">Button</button>
-        <button class="btn btn-outline-secondary" type="button">Button</button>
-      </div>
-    </div>
+  
   </div>
 
   <!-- #region ROLES-->
   <div  class="col-4  align-self-center">
     <div class="input-group">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="">Contact</span>
+        <span class="input-group-text" id="">Roles</span>
       </div>
       <input type="text" class="form-control" placeholder="Roles">
     
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">Button</button>
-        <button class="btn btn-outline-secondary" type="button">Button</button>
-      </div>
+          <button class="btn btn-outline-secondary" type="button">
+              <i class="fas fa-pen"></i>
+          </button>
+        </div>
     </div>
   </div>
 </div>
+</form>

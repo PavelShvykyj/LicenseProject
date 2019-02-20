@@ -22,6 +22,7 @@ import { LicenseComponent } from './license/license.component';
 import { LicensesComponent } from './licenses/licenses.component';
 import { CoWokerComponent } from './co-woker/co-woker.component';
 import { CoWokersComponent } from './co-wokers/co-wokers.component';
+import { RemoveSymbolsDirective } from './directives/remove-symbols.directive';
 
 
 
@@ -38,7 +39,8 @@ import { CoWokersComponent } from './co-wokers/co-wokers.component';
     CoWokerComponent,
     LicensesComponent,
     LicenseComponent,
-    MessagesComponent
+    MessagesComponent,
+    RemoveSymbolsDirective
   ],
   
   imports: [
