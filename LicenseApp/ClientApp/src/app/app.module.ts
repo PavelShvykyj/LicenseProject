@@ -72,7 +72,8 @@ import { CoWokerRolesComponent } from './co-woker-roles/co-woker-roles.component
     AccauntService,
     AuthGuard,
     AdminGuard,
-    ManagerGuard],
+    ManagerGuard
+    ],
 
   bootstrap: [AppComponent]
 })

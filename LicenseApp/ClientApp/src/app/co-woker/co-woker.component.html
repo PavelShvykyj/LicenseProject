@@ -12,7 +12,15 @@
         <input formControlName="Id" hidden  type="text" class="form-control" placeholder="Id">
         <!-- disableControl - наша директива, применяется для блокирования форм контролов почему так см в саму директиву-->
         <input [disableControl]="inDisabledState" formControlName="Email" [RemoveSymbols]="[' ']" type="email" class="form-control" placeholder="Email">
-        <input [disableControl]="inDisabledState" formControlName="UserName" [RemoveSymbols]="[' ']" type="text" class="form-control" placeholder="UserName">
+        <input [disableControl]="inDisabledState" formControlName="UserName" [RemoveSymbols]="[' ']" type="text" class="form-control" placeholder="UserName" aria-describedby="UserNameHelpBlock">
+        <small *ngIf="!inDisabledState && !UserName.pending" id="UserNameHelpBlock" class="form-text text-muted">
+          Your login must be uniq
+        </small>
+        <small *ngIf="!inDisabledState && UserName.pending" id="UserNamePendingBlock" class="form-text text-muted">
+          Checking for  uniqness
+        </small>
+
+
         <input [disableControl]="inDisabledState" formControlName="PhoneNumber" [RemoveSymbols]="[' ', '-', '\\)', '\\(']" type="tel" class="form-control" placeholder="PhoneNumber">
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" type="button" (click) = "ChangeOrUndo()">

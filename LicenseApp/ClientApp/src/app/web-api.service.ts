@@ -6,6 +6,7 @@ import { ISignInResource } from './Interfaces/IUserData';
 @Injectable()
 export class WebApiService {
   private BASE_URL : string = "/api";
+  testField : string = "Меня видно";
 
   constructor(private http : HttpClient ) { }
 
@@ -44,4 +45,14 @@ export class WebApiService {
 
     return request;
   }
+
+  UserNameExist(name : string ) : Promise<boolean> {
+        //// Fake 
+        return new Promise ((reject, resolve) => {
+            setTimeout(() => {
+              reject((name == "Administrator"))
+            }, 2000);
+        });
+  }
+
 }

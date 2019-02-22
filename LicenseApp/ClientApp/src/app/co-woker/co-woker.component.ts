@@ -1,6 +1,9 @@
+import { WebApiService } from './../web-api.service';
+import { SignInValidators } from './../validators/account-validators';
 import { FormGroup, FormControl } from '@angular/Forms';
 import { Component, OnInit, Input } from '@angular/core';
 import { ISignInResource } from '../Interfaces/IUserData';
+ 
 
 
 @Component({
@@ -11,19 +14,24 @@ import { ISignInResource } from '../Interfaces/IUserData';
 export class CoWokerComponent implements OnInit {
 
   @Input("User") User : ISignInResource;
-  form = new FormGroup({Id : new FormControl(),
-                        Email : new FormControl(),
-                        UserName : new FormControl(),
-                        PhoneNumber : new FormControl()
-
-  });
-
+  form : FormGroup;
   inDisabledState : boolean = true;
   inDisabledStateRoles : boolean = true;
   isDeleted : boolean = false;
-  constructor() { }
+  
+  constructor(private  WebApi : WebApiService) {
+   }
 
   ngOnInit() {
+    
+    let  cv = new SignInValidators()
+
+    this.form =   new FormGroup({Id : new FormControl(),
+      Email : new FormControl(),
+      UserName : new FormControl('',null,cv.UserNameUniqness.bind(this)),
+      PhoneNumber : new FormControl()});
+    
+    
     this.UploadUserToForm();
   }
 

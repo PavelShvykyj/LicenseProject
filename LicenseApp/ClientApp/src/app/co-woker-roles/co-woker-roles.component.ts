@@ -53,7 +53,6 @@ export class CoWokerRolesComponent implements OnInit {
   }
 
   UploadFormToRoles() {
-    
     this.Roles = [];
     for (let index = 0; index < 3; index++) {
       let el = this.form.get(UserRoles[index]);
