@@ -166,15 +166,58 @@ namespace LicenseApp.Controllers
         public async Task<IActionResult> GetUsers()
         {
 
-            var quer = from u  in _context.Users
+            var query = from u  in _context.Users
                       join ur in _context.UserRoles on u.Id equals ur.UserId
                       join r  in _context.Roles on ur.RoleId equals r.Id into rol
-                      select new { Id = u.Id, SignIn = new { UserName = u.UserName, Email = u.Email, PhoneNumber = u.PhoneNumber } , Roles =  rol.Select(rl =>  rl.Name) };
+                      select new { u.Id, SignIn = new { u.UserName, u.Email, u.PhoneNumber } , Roles =  rol.Select(rl =>  rl.Name) };
 
-            var res = await quer.ToListAsync();
-
+            var res = await query.ToListAsync();
             return Ok(res);
         }
+
+        [HttpGet]
+        [Route("/api/userexist/{contactField}/{contactValue}")]
+        public async Task<IActionResult> UserExist(string contactField, string contactValue)
+        {
+
+            var UsersID = new List<string>();
+            User user;
+
+            if (contactField == "Email")
+            {
+                user =  await _userManager.FindByEmailAsync(contactValue);
+                if (user != null)
+                {
+                    UsersID.Add(user.Id);
+                }
+            }
+            else if (contactField == "UserName")
+            {
+                user = await _userManager.FindByNameAsync(contactValue);
+                if (user != null)
+                {
+                    UsersID.Add(user.Id);
+                }
+                
+            }
+            else if (contactField == "Phone")
+            {
+                var query = _context.Users.Where(u =>  u.PhoneNumber == contactValue).Select(e => e.Id);
+                UsersID = await query.ToListAsync();
+            }
+            else
+            {
+                return BadRequest("Unknown field name");
+            }
+
+
+            return Ok(UsersID);
+
+
+
+
+        }
+
 
     }
 }

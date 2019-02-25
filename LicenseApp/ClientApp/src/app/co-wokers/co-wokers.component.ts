@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { WebApiService } from './../web-api.service';
 import { Component, OnInit } from '@angular/core';
 import { ISignInResource } from '../Interfaces/IUserData';
@@ -16,7 +17,21 @@ export class CoWokersComponent implements OnInit {
 
   async Update() {
     await this.ApiService.GetUsers()
-      .then(result => {this.Users = JSON.parse(result)})
+      .then(result => {
+        let bUsers = JSON.parse(result);
+        console.log(bUsers);
+        bUsers.forEach(element => {
+          let User: ISignInResource = this.GetFakeUser(element.id);
+          User.Roles = element.roles;
+          User.SignIn.Email = element.signIn.email;
+          User.SignIn.UserName = element.signIn.userName;
+          User.SignIn.PhoneNumber = element.signIn.phoneNumber;
+          this.Users.push(User);
+        });
+        //this.Users = 
+      
+      
+      })
       .catch(error => {console.log('get users error ',error)});
   }
 
@@ -35,14 +50,14 @@ export class CoWokersComponent implements OnInit {
   }
 
   ngOnInit() {
-     //this.Update()
+     this.Update()
 
-     this.Users.push(this.GetFakeUser(1));
-     this.Users.push(this.GetFakeUser(2));
-     this.Users.push(this.GetFakeUser(3));
-     this.Users.push(this.GetFakeUser(4));
-     this.Users.push(this.GetFakeUser(5));
-     this.Users.push(this.GetFakeUser(6));
+    //this.Users.push(this.GetFakeUser('78d10a02-6025-46a5-88f8-081fdb607966'));
+    //this.Users.push(this.GetFakeUser('78d10a02-6025-46a5-88f8-081fdb607967'));
+    //this.Users.push(this.GetFakeUser('78d10a02-6025-46a5-88f8-081fdb607968'));
+    //this.Users.push(this.GetFakeUser('78d10a02-6025-46a5-88f8-081fdb607968'));
+    //this.Users.push(this.GetFakeUser('78d10a02-6025-46a5-88f8-081fdb607968'));
+    //this.Users.push(this.GetFakeUser('78d10a02-6025-46a5-88f8-081fdb607968'));
 
   }
 

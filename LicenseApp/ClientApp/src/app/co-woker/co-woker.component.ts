@@ -1,8 +1,9 @@
 import { WebApiService } from './../web-api.service';
-import { SignInValidators } from './../validators/account-validators';
-import { FormGroup, FormControl } from '@angular/Forms';
+import { UniqnessUserName, UniqnessEmail, UniqnessPhone  } from './../validators/account-validators';
+import { FormGroup, FormControl, Validators } from '@angular/Forms';
 import { Component, OnInit, Input } from '@angular/core';
 import { ISignInResource } from '../Interfaces/IUserData';
+
  
 
 
@@ -23,16 +24,13 @@ export class CoWokerComponent implements OnInit {
    }
 
   ngOnInit() {
-    
-    let  cv = new SignInValidators()
-
     this.form =   new FormGroup({Id : new FormControl(),
-      Email : new FormControl(),
-      UserName : new FormControl('',null,cv.UserNameUniqness.bind(this)),
-      PhoneNumber : new FormControl()});
+      Email : new FormControl('',Validators.required,UniqnessEmail(this.WebApi)),
+      UserName : new FormControl('',Validators.required,UniqnessUserName(this.WebApi)),
+      PhoneNumber : new FormControl('',Validators.required,UniqnessPhone(this.WebApi))});
     
     
-    this.UploadUserToForm();
+      this.UploadUserToForm();
   }
 
   get Email () {
@@ -72,9 +70,6 @@ export class CoWokerComponent implements OnInit {
     }
     
     this.SwichDisableState();
-    
-    
-
   }
 
   MarkDeleted() {
@@ -88,6 +83,7 @@ export class CoWokerComponent implements OnInit {
   }
 
   UploadUserToForm() {
+    
     this.Id.patchValue(this.User.Id);
     this.Email.patchValue(this.User.SignIn.Email);
     this.UserName.patchValue(this.User.SignIn.UserName);
@@ -109,4 +105,11 @@ export class CoWokerComponent implements OnInit {
     this.SaveRoleChanges(event);  
   }
 
+
+  ///// Вызывается из директив (@output) изменяющих значение: прописываем занчение DOM елемента в контрол формы и вызываем валидацию его
+  OnDirectiveChange(event) {
+    this[event.name].patchValue(event.value); 
+    this[event.name].updateValueAndValidity( {onlySelf : true} );
+  }
+ 
 }
