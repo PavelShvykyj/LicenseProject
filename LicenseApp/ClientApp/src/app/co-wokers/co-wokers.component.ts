@@ -18,19 +18,17 @@ export class CoWokersComponent implements OnInit {
   async Update() {
     await this.ApiService.GetUsers()
       .then(result => {
-        let bUsers = JSON.parse(result);
-        console.log(bUsers);
-        bUsers.forEach(element => {
-          let User: ISignInResource = this.GetFakeUser(element.id);
-          User.Roles = element.roles;
-          User.SignIn.Email = element.signIn.email;
-          User.SignIn.UserName = element.signIn.userName;
-          User.SignIn.PhoneNumber = element.signIn.phoneNumber;
-          this.Users.push(User);
-        });
-        //this.Users = 
-      
-      
+        // let bUsers = JSON.parse(result);
+        // console.log(bUsers);
+        // bUsers.forEach(element => {
+        //   let User: ISignInResource = this.GetFakeUser(element.id);
+        //   User.Roles = element.roles;
+        //   User.SignIn.Email = element.signIn.email;
+        //   User.SignIn.UserName = element.signIn.userName;
+        //   User.SignIn.PhoneNumber = element.signIn.phoneNumber;
+        //   this.Users.push(User);
+        // });
+        this.Users = JSON.parse(result);
       })
       .catch(error => {console.log('get users error ',error)});
   }

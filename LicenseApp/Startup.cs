@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AutoMapper;
 using LicenseApp.Controllers;
+using Newtonsoft.Json.Serialization;
 
 namespace LicenseApp
 {
@@ -77,7 +78,16 @@ namespace LicenseApp
 
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(opt =>
+                {
+                    var resolver = opt.SerializerSettings.ContractResolver;
+                    if (resolver != null)
+                    {
+                        var res = resolver as DefaultContractResolver;
+                        res.NamingStrategy = null;  // <<!-- this removes the camelcasing
+                    }
+                });
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
