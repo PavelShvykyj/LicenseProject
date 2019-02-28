@@ -213,11 +213,112 @@ namespace LicenseApp.Controllers
 
             return Ok(UsersID);
 
+        }
+
+        [HttpPost]
+        [Route("/api/updateuser/{userid}")]
+        public async Task<IActionResult> UpdateUser(string userid, [FromBody] SignInResource UserData)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = await _userManager.FindByIdAsync(userid);
+            if (user == null)
+            {
+                return NotFound();       
+            }
+            user.Email = UserData.SignIn.UserName;
+            user.UserName = UserData.SignIn.UserName;
+            user.PhoneNumber = UserData.SignIn.PhoneNumber;
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok(UserData);
+        }
+
+
+        [HttpPost]
+        [Route("/api/updateuserroles/{userid}")]
+        public async Task<IActionResult> UpdateUserRoles(string userid, [FromBody] ICollection<string> Roles)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = await _userManager.FindByIdAsync(userid);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var allRoles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+
+            var result =  await _userManager.RemoveFromRolesAsync(user, allRoles);
+            if (!result.Succeeded) {
+                return BadRequest(result.Errors);
+            }
+
+            result = await _userManager.AddToRolesAsync(user, Roles);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok();
+        }
+
+
+        [HttpPost]
+        [Route("/api/signin")]
+        public async Task<IActionResult> SignIn([FromBody] SignInResource UserData) {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = new User
+            {
+                Email = UserData.SignIn.Email,
+                UserName = UserData.SignIn.UserName,
+                PhoneNumber = UserData.SignIn.PhoneNumber
+            };
+            
+            var result = await CreateUser(user, UserData.Password, "Manager");
+
+            if (result)
+            {
+                user = await _userManager.FindByEmailAsync(UserData.SignIn.Email);
+                UserData.Id = user.Id;
+                return Ok(UserData);
+            }
+                
+            return BadRequest("Somthing wrong ... ");
+            
+        }
+
+        [HttpPost]
+        [Route("/api/deleteuser/{userid}")]
+        public async Task<IActionResult> DeleteUser(string userid) {
+
+            var user = await _userManager.FindByIdAsync(userid);
+            if (user == null) {
+                return NotFound();
+            }
+ 
+            var result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+                return Ok();
+
+            return BadRequest(result.Errors);
+        }
+        
 
 
 
         }
-
-
     }
-}

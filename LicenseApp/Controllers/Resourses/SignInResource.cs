@@ -14,5 +14,8 @@ namespace LicenseApp.Controllers.Resourses
         public SignIn SignIn  { get; set; }
         [Required]
         public ICollection<string> Roles { get; set; }
+        [Required]
+        public string Password { get; set; }
+
     }
 }

@@ -4,8 +4,6 @@ import { FormGroup, FormControl, Validators } from '@angular/Forms';
 import { Component, OnInit, Input } from '@angular/core';
 import { ISignInResource } from '../Interfaces/IUserData';
 
- 
-
 
 @Component({
   selector: 'app-co-woker',
@@ -24,13 +22,11 @@ export class CoWokerComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.form =   new FormGroup({Id : new FormControl(),
-      Email : new FormControl('',Validators.required,UniqnessEmail(this.WebApi)),
-      UserName : new FormControl('',Validators.required,UniqnessUserName(this.WebApi)),
-      PhoneNumber : new FormControl('',Validators.required,UniqnessPhone(this.WebApi))});
-    
-    
-      this.UploadUserToForm();
+    this.form = new FormGroup({
+      Id: new FormControl(this.User.Id),
+      Email : new FormControl(this.User.SignIn.Email,Validators.required,UniqnessEmail(this.WebApi)),
+      UserName : new FormControl(this.User.SignIn.UserName,Validators.required,UniqnessUserName(this.WebApi)),
+      PhoneNumber : new FormControl(this.User.SignIn.PhoneNumber,Validators.required,UniqnessPhone(this.WebApi))});
   }
 
   get Email () {
@@ -83,18 +79,21 @@ export class CoWokerComponent implements OnInit {
   }
 
   UploadUserToForm() {
-    
+    setTimeout(() => {
     this.Id.patchValue(this.User.Id);
     this.Email.patchValue(this.User.SignIn.Email);
     this.UserName.patchValue(this.User.SignIn.UserName);
     this.PhoneNumber.patchValue(this.User.SignIn.PhoneNumber);
+    }, 10);
   }
 
   UploadFormToUser() {
-    this.User.Id = this.Id.value;
-    this.User.SignIn.Email = this.Email.value;
-    this.User.SignIn.UserName = this.UserName.value;
-    this.User.SignIn.PhoneNumber = this.PhoneNumber.value;
+    setTimeout(() => {
+      this.User.Id = this.Id.value;
+      this.User.SignIn.Email = this.Email.value;
+      this.User.SignIn.UserName = this.UserName.value;
+      this.User.SignIn.PhoneNumber = this.PhoneNumber.value;
+      }, 10);
   }
 
   SaveRoleChanges(Roles : Array<string>) {
