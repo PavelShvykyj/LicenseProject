@@ -12,10 +12,14 @@ import { UserRoles } from '../GlobalEnums';
 export class CoWokersComponent implements OnInit {
 
   Users : Array<ISignInResource> = [];
+  isUpdating : boolean = false;
+   
 
   constructor(private ApiService : WebApiService ) { }
 
   async Update() {
+    
+    this.isUpdating = true;
     await this.ApiService.GetUsers()
       .then(result => {
         // let bUsers = JSON.parse(result);
@@ -31,7 +35,27 @@ export class CoWokersComponent implements OnInit {
         this.Users = JSON.parse(result);
       })
       .catch(error => {console.log('get users error ',error)});
+      this.isUpdating = false;
   }
+
+
+  NewUser() {
+    this.Users.push(this.GetEmptyUser());
+  }
+
+  GetEmptyUser() : ISignInResource  {
+
+    let emptyUser : ISignInResource = {
+      Id : 'empty',
+      SignIn : {
+        UserName : "",
+        Email : "",
+        PhoneNumber : ""
+      },
+      Roles : []
+   } 
+   return emptyUser;
+  }  
 
   GetFakeUser(id) : ISignInResource  {
 

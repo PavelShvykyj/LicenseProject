@@ -54,17 +54,17 @@ namespace LicenseApp.Controllers
             return true;
         }
 
-        private async Task<bool> CreateUser(User user, string password, string userRole)
+        private async Task<IdentityResult> CreateUser(User user, string password, string userRole)
         {
             var result = await _userManager.CreateAsync(user, password);
             if (!result.Succeeded)
-                return false;
+                return result;
 
             var adminAccount = await _userManager.FindByNameAsync(user.UserName);
 
             result = await _userManager.AddToRoleAsync(adminAccount, userRole);
             if (!result.Succeeded)
-                return false;
+                return result;
 
             var userCaims = new List<Claim>
                 {
@@ -74,9 +74,9 @@ namespace LicenseApp.Controllers
                 };
             result = await _userManager.AddClaimsAsync(adminAccount, userCaims);
             if (!result.Succeeded)
-                return false;
+                return result;
 
-            return true;
+            return result;
         }
 
         [HttpPost]
@@ -121,9 +121,9 @@ namespace LicenseApp.Controllers
                 var defaultAdminPassword = "Abc123!";
                 var result = await CreateUser(defoultAdmin, defaultAdminPassword, AdminRoleName);
 
-                if (result)
+                if (result.Succeeded)
                     return Ok("Created... Login and change password");
-                return BadRequest("Somthing wrong ... ");
+                return BadRequest(result.Errors);
             }
             return Ok();
 
@@ -165,11 +165,9 @@ namespace LicenseApp.Controllers
         [Route("/api/users")]
         public async Task<IActionResult> GetUsers()
         {
-
-            var query = from u  in _context.Users
-                      join ur in _context.UserRoles on u.Id equals ur.UserId
-                      join r  in _context.Roles on ur.RoleId equals r.Id into rol
-                      select new { u.Id, SignIn = new { u.UserName, u.Email, u.PhoneNumber } , Roles =  rol.Select(rl =>  rl.Name) };
+            var subquery = from ur in _context.UserRoles join r in _context.Roles on ur.RoleId equals r.Id select new { ur.UserId, r.Name };
+            var query = from u  in _context.Users join or in subquery on u.Id equals or.UserId into rol
+                        select new { u.Id, SignIn = new { u.UserName, u.Email, u.PhoneNumber }, Roles = rol.Select(rl => rl.Name) };
 
             var res = await query.ToListAsync();
             return Ok(res);
@@ -228,7 +226,7 @@ namespace LicenseApp.Controllers
             {
                 return NotFound();       
             }
-            user.Email = UserData.SignIn.UserName;
+            user.Email = UserData.SignIn.Email;
             user.UserName = UserData.SignIn.UserName;
             user.PhoneNumber = UserData.SignIn.PhoneNumber;
             var result = await _userManager.UpdateAsync(user);
@@ -239,7 +237,6 @@ namespace LicenseApp.Controllers
             return Ok(UserData);
         }
 
-
         [HttpPost]
         [Route("/api/updateuserroles/{userid}")]
         public async Task<IActionResult> UpdateUserRoles(string userid, [FromBody] ICollection<string> Roles)
@@ -249,19 +246,31 @@ namespace LicenseApp.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             var user = await _userManager.FindByIdAsync(userid);
+
             if (user == null)
             {
                 return NotFound();
             }
+
             var allRoles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
 
-            var result =  await _userManager.RemoveFromRolesAsync(user, allRoles);
-            if (!result.Succeeded) {
-                return BadRequest(result.Errors);
+            foreach (var role in allRoles)
+            {
+                var inRole = await _userManager.IsInRoleAsync(user, role);
+                if (inRole)
+                {
+                    var r = await _userManager.RemoveFromRoleAsync(user, role); 
+                    if (!r.Succeeded)
+                    {
+                        return BadRequest(r.Errors);
+                    }
+                }
             }
 
-            result = await _userManager.AddToRolesAsync(user, Roles);
+
+            var result = await _userManager.AddToRolesAsync(user, Roles);
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);
@@ -274,6 +283,8 @@ namespace LicenseApp.Controllers
         [HttpPost]
         [Route("/api/signin")]
         public async Task<IActionResult> SignIn([FromBody] SignInResource UserData) {
+
+            
 
             if (!ModelState.IsValid)
             {
@@ -289,14 +300,15 @@ namespace LicenseApp.Controllers
             
             var result = await CreateUser(user, UserData.Password, "Manager");
 
-            if (result)
+            if (result.Succeeded)
             {
                 user = await _userManager.FindByEmailAsync(UserData.SignIn.Email);
                 UserData.Id = user.Id;
+                UserData.Roles.Add("Manager");
                 return Ok(UserData);
             }
                 
-            return BadRequest("Somthing wrong ... ");
+            return BadRequest(result.Errors);
             
         }
 

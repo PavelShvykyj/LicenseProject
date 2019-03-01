@@ -6,10 +6,12 @@
    
       <div class="input-group" >
         <div class="input-group-prepend" >
-          <span [ngClass]="{'text-warning': isDeleted,  'bg-dark': isDeleted}" class="input-group-text" id="">Contact</span>
-          <span [ngClass]="{'text-warning': isDeleted,  'bg-dark': isDeleted}" *ngIf="isDeleted" class="input-group-text" id="">Deleted</span>
+          <span [id]="User.Id" [ngClass]="{'text-warning': isDeleted || Id.value == '' || Id.value == 'empty',  'bg-dark': isDeleted || Id.value == ''|| Id.value == 'empty'}" class="input-group-text" >Contact</span>
+          <span [ngClass]="{'text-warning': isDeleted ,  'bg-dark': isDeleted}" *ngIf="isDeleted" class="input-group-text" id="">Deleted</span>
+          <span [ngClass]="{'text-warning': Id.value == '' || Id.value == 'empty' ,  'bg-dark': Id.value == '' || Id.value == 'empty'}" *ngIf="Id.value == '' || Id.value == 'empty'" class="input-group-text" id="">New</span>
         </div>
         <input formControlName="Id" hidden  type="text" class="form-control" placeholder="Id">
+        <input [disableControl]="inDisabledState" formControlName="Password" [hidden]="User.Id != '' && User.Id != 'empty'"  type="password" class="form-control" placeholder="Password">
         <!-- disableControl - наша директива, применяется для блокирования форм контролов почему так см в саму директиву-->
         <input [disableControl]="inDisabledState" formControlName="Email" (OnDirectiveChange) = "OnDirectiveChange($event)" [RemoveSymbols]="[' ']" type="email" class="form-control bg" [ngClass]="{'is-invalid': Email.invalid, 'is-valid': Email.valid, 'bg-warning' : Email.pending && Email.dirty}" placeholder="Email">
         <input [disableControl]="inDisabledState" formControlName="UserName" (OnDirectiveChange) = "OnDirectiveChange($event)" [RemoveSymbols]="[' ']" type="text" class="form-control bg"  [ngClass]="{'is-invalid': UserName.invalid, 'is-valid': UserName.valid, 'bg-warning' : UserName.pending && UserName.dirty}" placeholder="UserName" aria-describedby="UserNameHelpBlock">
