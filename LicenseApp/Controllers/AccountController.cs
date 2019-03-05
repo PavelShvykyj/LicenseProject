@@ -229,7 +229,26 @@ namespace LicenseApp.Controllers
             user.Email = UserData.SignIn.Email;
             user.UserName = UserData.SignIn.UserName;
             user.PhoneNumber = UserData.SignIn.PhoneNumber;
+
+
+            if (UserData.Password != "" )
+            { 
+                var passwordValidator = HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
+                var passwordHasher =  HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
+
+                IdentityResult res = await passwordValidator.ValidateAsync(_userManager, user, UserData.Password);
+                if (res.Succeeded)
+                {
+                    user.PasswordHash = passwordHasher.HashPassword(user, UserData.Password);
+                }
+                else
+                {
+                    return BadRequest(res.Errors);
+                }
+            }
+
             var result = await _userManager.UpdateAsync(user);
+
             if (!result.Succeeded)
             {
                 return BadRequest(result.Errors);

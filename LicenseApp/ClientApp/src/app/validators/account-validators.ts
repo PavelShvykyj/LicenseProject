@@ -37,6 +37,36 @@ export function UniqnessUserName(WebApi : WebApiService) : AsyncValidatorFn {
     }
 }
 
+export function PasswordValid (control : AbstractControl) : ValidationErrors | null {
+
+    let pass : string = control.value;
+
+    let HasUpperCase : boolean = false;
+    let HasLowerCase : boolean = false;
+    let HasSpec : boolean = true;
+    let HasNumber : boolean = false;
+    let Haslength : boolean = false;
+    let Hasletter : boolean = false;
+    
+    Haslength = pass.length >= 6
+    HasNumber = pass.search(/\d/) > 0; 
+    Hasletter   = pass.search(/\D/) > 0; 
+ 
+    for (let index = 0; index < pass.length-1; index++) {
+        let element = pass.charAt(index);
+        let initial = pass.charAt(index);
+        HasUpperCase =  (element.toUpperCase() == initial) || HasUpperCase;
+        HasLowerCase =  (element.toLowerCase() == initial) || HasLowerCase;
+        
+        
+    }
+
+    if(!HasUpperCase || !HasLowerCase ||  !HasSpec || !HasNumber || !Haslength || !Hasletter) {
+        return {passwoderros : true}
+    } else {
+        return null
+    }
+}
 
 export function UniqnessEmail(WebApi : WebApiService) : AsyncValidatorFn {
     

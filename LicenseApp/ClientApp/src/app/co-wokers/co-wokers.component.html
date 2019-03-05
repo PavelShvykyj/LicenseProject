@@ -3,7 +3,7 @@
   <div  class="row align-items-center py-1">
     <div  class="col  align-self-left">
     <div class="btn-group" role="group" aria-label="Basic example">
-      <button type="button" class="btn " [ngClass]="{'btn-secondary': !isUpdating, 'btn-warning' : isUpdating}" (click) = "Update()">Update</button>
+      <button type="button" class="btn " [ngClass]="{'btn-secondary': !isUpdating, 'btn-dark' : isUpdating, 'text-warning': isUpdating}" (click) = "Update()">Update</button>
       <button type="button" class="btn btn-secondary" (click) = "NewUser()">New</button>
       <button type="button" class="btn btn-secondary">Somthing else</button>
     </div>

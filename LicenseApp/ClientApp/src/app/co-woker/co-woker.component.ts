@@ -1,6 +1,6 @@
 import { error } from 'util';
 import { WebApiService } from './../web-api.service';
-import { UniqnessUserName, UniqnessEmail, UniqnessPhone } from './../validators/account-validators';
+import { UniqnessUserName, UniqnessEmail, UniqnessPhone, PasswordValid } from './../validators/account-validators';
 import { FormGroup, FormControl, Validators } from '@angular/Forms';
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ISignInResource } from '../Interfaces/IUserData';
@@ -35,7 +35,7 @@ export class CoWokerComponent implements OnInit, AfterViewInit {
       Email: new FormControl(this.User.SignIn.Email, Validators.required, UniqnessEmail(this.WebApi)),
       UserName: new FormControl(this.User.SignIn.UserName, Validators.required, UniqnessUserName(this.WebApi)),
       PhoneNumber: new FormControl(this.User.SignIn.PhoneNumber, Validators.required, UniqnessPhone(this.WebApi)),
-      Password: new FormControl()
+      Password: new FormControl("",PasswordValid)
     });
 
   }
@@ -135,7 +135,7 @@ export class CoWokerComponent implements OnInit, AfterViewInit {
         this.Id.patchValue("");
         this.User.Id = "";  
         this.SwichDisableState();
-        this.ShowPopMessage("Canges saved",false);
+        this.ShowPopMessage("Changes saved",false);
       })
       .catch(error => {
         this.isDeleted = false;
@@ -148,7 +148,7 @@ export class CoWokerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  async SaveCanges() {
+  async SaveChanges() {
 
     if (!this.form.valid) {
       return;
@@ -157,21 +157,23 @@ export class CoWokerComponent implements OnInit, AfterViewInit {
     let UserData: ISignInResource = {
       Id: this.Id.value,
       SignIn: { Email: this.Email.value, UserName: this.UserName.value, PhoneNumber: this.PhoneNumber.value },
+      Password : this.Password.value,
       Roles: []
     };
 
     if (!this.Id.value || this.Id.value == "" || this.Id.value == "empty") { //// создаем нового
-      UserData.Password = this.Password.value;
       await this.WebApi.Signin(UserData)
         .then(result => {
           //// тоггл Ok
-          let reqestdata : ISignInResource = JSON.parse(result);
-          this.Id.patchValue(reqestdata.Id);          
+          let requestdata : ISignInResource = JSON.parse(result);
+          this.Id.patchValue(requestdata.Id);          
+          this.Password.patchValue('');          
           this.UploadFormToUser();
-          this.User.Roles = reqestdata.Roles;
+          this.User.Roles = requestdata.Roles;
           this.isDeleted = false;
+          
           this.SwichDisableState();
-          this.ShowPopMessage("Canges saved",false);
+          this.ShowPopMessage("Changes saved",false);
         })
         .catch(error => {
           //// тоггл error
@@ -182,9 +184,10 @@ export class CoWokerComponent implements OnInit, AfterViewInit {
       await this.WebApi.UpdateUser(UserData)
         .then(result => {
           //// тоггл Ok
+          this.Password.patchValue(''); 
           this.UploadFormToUser();
           this.SwichDisableState();
-          this.ShowPopMessage("Canges saved",false);
+          this.ShowPopMessage("Changes saved",false);
         })
         .catch(error => {
           //// тоггл error
@@ -200,6 +203,7 @@ export class CoWokerComponent implements OnInit, AfterViewInit {
       this.Email.patchValue(this.User.SignIn.Email);
       this.UserName.patchValue(this.User.SignIn.UserName);
       this.PhoneNumber.patchValue(this.User.SignIn.PhoneNumber);
+      
     }, 10);
   }
 
@@ -224,7 +228,7 @@ export class CoWokerComponent implements OnInit, AfterViewInit {
     await this.WebApi.UpdateUserRoles(this.Id.value, Roles)
       .then(result => {
         this.User.Roles = Roles;
-        this.ShowPopMessage("Canges saved",false)
+        this.ShowPopMessage("Changes saved",false)
       })
       .catch(error => {
         //// тоггл error

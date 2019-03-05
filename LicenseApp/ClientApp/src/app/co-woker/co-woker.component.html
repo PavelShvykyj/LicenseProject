@@ -11,7 +11,7 @@
           <span [ngClass]="{'text-warning': Id.value == '' || Id.value == 'empty' ,  'bg-dark': Id.value == '' || Id.value == 'empty'}" *ngIf="Id.value == '' || Id.value == 'empty'" class="input-group-text" id="">New</span>
         </div>
         <input formControlName="Id" hidden  type="text" class="form-control" placeholder="Id">
-        <input [disableControl]="inDisabledState" formControlName="Password" [hidden]="User.Id != '' && User.Id != 'empty'"  type="password" class="form-control" placeholder="Password">
+        <input [disableControl]="inDisabledState" formControlName="Password" (OnDirectiveChange) = "OnDirectiveChange($event)"  [RemoveSymbols]="[' ']"  type="password" class="form-control" class="form-control bg" [ngClass]="{'is-invalid': Password.invalid, 'is-valid': Password.valid}" placeholder="Password"> <!--[hidden]="User.Id != '' && User.Id != 'empty'"-->
         <!-- disableControl - наша директива, применяется для блокирования форм контролов почему так см в саму директиву-->
         <input [disableControl]="inDisabledState" formControlName="Email" (OnDirectiveChange) = "OnDirectiveChange($event)" [RemoveSymbols]="[' ']" type="email" class="form-control bg" [ngClass]="{'is-invalid': Email.invalid, 'is-valid': Email.valid, 'bg-warning' : Email.pending && Email.dirty}" placeholder="Email">
         <input [disableControl]="inDisabledState" formControlName="UserName" (OnDirectiveChange) = "OnDirectiveChange($event)" [RemoveSymbols]="[' ']" type="text" class="form-control bg"  [ngClass]="{'is-invalid': UserName.invalid, 'is-valid': UserName.valid, 'bg-warning' : UserName.pending && UserName.dirty}" placeholder="UserName" aria-describedby="UserNameHelpBlock">
@@ -37,7 +37,7 @@
           <button [disabled]="inDisabledState" class="btn btn-outline-secondary" type="button" (click)="MarkDeleted()">
               <i class="fas fa-trash"></i>
           </button>
-          <button [disabled]="inDisabledState" class="btn btn-outline-secondary" type="button" (click)="SaveCanges()" >
+          <button [disabled]="inDisabledState" class="btn btn-outline-secondary" type="button" (click)="SaveChanges()" >
               <i class="fas fa-tablet-alt"></i>
           </button>
 
