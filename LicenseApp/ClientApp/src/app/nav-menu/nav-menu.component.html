@@ -2,6 +2,12 @@
   <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3'>
     <div class="container">
       <a class="navbar-brand" [routerLink]='["/"]'>LicenseApp</a>
+      
+      <form class="form-inline">
+        <span  (click)="UseLanguage('en')" class="pointer-cursor "><img class="border border-secondary rounded-circle" src="GB.png"></span>
+        <span  (click)="UseLanguage('ru')" class="mx-.25 pointer-cursor   "><img class="border border-secondary rounded-circle" src="RU.png"></span>
+      </form>
+      
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-label="Toggle navigation"
         [attr.aria-expanded]="isExpanded" (click)="toggle()">
         <span class="navbar-toggler-icon"></span>
@@ -9,19 +15,19 @@
       <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]='{"show": isExpanded}'>
         <ul class="navbar-nav flex-grow">
           <li class="nav-item" routerLinkActive="link-active" [routerLinkActiveOptions]='{ exact: true }'>
-            <a class="nav-link text-dark" [routerLink]='["/"]'>Home</a>
+            <a class="nav-link text-dark" [routerLink]='["/"]'>{{ 'NAV_BAR.home' | translate }}</a>
           </li>
           
           <li *ngIf="!AccService.isLoggedIn()" class="nav-item" routerLinkActive="link-active" [routerLinkActiveOptions]='{ exact: true }'>
-            <a class="nav-link text-dark" [routerLink]='["/login"]'>login</a>
+            <a class="nav-link text-dark" [routerLink]='["/login"]'>{{ 'NAV_BAR.login' | translate }}</a>
           </li>
           
           <li *ngIf="AccService.isLoggedIn()" class="nav-item" routerLinkActive="link-active" [routerLinkActiveOptions]='{ exact: true }'>
-            <a class="nav-link text-dark" [routerLink]='["/logout"]'>logout</a>
+            <a class="nav-link text-dark" [routerLink]='["/logout"]'>{{ 'NAV_BAR.logout' | translate }}</a>
           </li>
         
           <li *ngIf="AccService.isInRole(0) || true" class="nav-item" routerLinkActive="link-active" [routerLinkActiveOptions]='{ exact: true }'>
-            <a class="nav-link text-dark" [routerLink]='["/users"]'>Users</a>
+            <a class="nav-link text-dark" [routerLink]='["/users"]'>{{ 'NAV_BAR.Users'  | translate }}</a>
           </li>
         
         

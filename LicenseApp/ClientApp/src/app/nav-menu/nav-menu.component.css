@@ -20,3 +20,7 @@ html {
 .link-active {
   font-weight: 900;
 }
+
+.pointer-cursor {
+  cursor: pointer;
+}

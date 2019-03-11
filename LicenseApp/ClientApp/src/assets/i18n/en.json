@@ -1,0 +1,8 @@
+{
+  "NAV_BAR": {
+    "home": "Home",
+    "login": "login",
+    "logout": "logout",
+    "Users": "Users"
+  }
+}
