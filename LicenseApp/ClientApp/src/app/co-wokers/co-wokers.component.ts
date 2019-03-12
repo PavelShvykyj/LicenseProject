@@ -47,7 +47,7 @@ export class CoWokersComponent implements OnInit {
 
     let emptyUser : ISignInResource = {
       Id : 'empty',
-      SignIn : {
+      Contact : {
         UserName : "",
         Email : "",
         PhoneNumber : ""
@@ -61,7 +61,7 @@ export class CoWokersComponent implements OnInit {
 
     let fakeUser : ISignInResource = {
       Id : id,
-      SignIn : {
+      Contact : {
         UserName : "Fake",
         Email : "Fake@Fake",
         PhoneNumber : "+380509999999"

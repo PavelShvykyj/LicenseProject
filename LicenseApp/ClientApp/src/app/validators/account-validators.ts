@@ -49,9 +49,10 @@ export function PasswordValid (control : AbstractControl) : ValidationErrors | n
     let Hasletter : boolean = false;
     
     Haslength = pass.length >= 6
-    HasNumber = pass.search(/\d/) > 0; // цифры
-    Hasletter   = pass.search(/\D/) > 0; // не цифры
-    HasSpec     = pass.search(/\S\W/) > 0; // не цифры  не латинница  не пробел( \s - пробел \w = a-zA-Z0-9_  большие W S - отрицание ) 
+    HasNumber = pass.search(/\d/) >= 0; // цифры
+    Hasletter   = pass.search(/\D/) >= 0; // не цифры
+    HasSpec     = pass.search(/\S\W/) >= 0; // не цифры  не латинница  не пробел( \s - пробел \w = a-zA-Z0-9_  большие W S - отрицание ) 
+    
     
 
  

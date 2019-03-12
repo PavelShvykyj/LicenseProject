@@ -5,7 +5,7 @@ export interface IUserJWTData {
   role : string | Array<string>
 }
 
-export interface  ISignIn {
+export interface  IContact {
 	UserName      : string,
 	Email         : string,
 	PhoneNumber   : string,
@@ -15,7 +15,7 @@ export interface  ISignIn {
 
 export interface ISignInResource {
         Id : string,
-        SignIn : ISignIn,
+        Contact : IContact,
         Password? : string,
         Roles  : Array<string>
 }

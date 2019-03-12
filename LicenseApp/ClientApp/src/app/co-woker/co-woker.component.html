@@ -26,7 +26,7 @@
         </div>
         -->
 
-        <input [disableControl]="inDisabledState" formControlName="PhoneNumber" (OnDirectiveChange) = "OnDirectiveChange($event)" [RemoveSymbols]="[' ', '-', '\\)', '\\(']" type="tel" class="form-control bg" [ngClass]="{'is-invalid': PhoneNumber.invalid, 'is-valid': PhoneNumber.valid, 'bg-warning' : PhoneNumber.pending && PhoneNumber.dirty}"  placeholder="PhoneNumber">
+        <input [disableControl]="inDisabledState" formControlName="PhoneNumber" (OnDirectiveChange) = "OnDirectiveChange($event)" [RemoveSymbols]="[' ', '-', '\\)', '\\(', '\\+']" type="tel" class="form-control bg" [ngClass]="{'is-invalid': PhoneNumber.invalid, 'is-valid': PhoneNumber.valid, 'bg-warning' : PhoneNumber.pending && PhoneNumber.dirty}"  placeholder="PhoneNumber">
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" type="button" (click) = "ChangeOrUndo()">
             <i  class="fas" [ngClass]="{'fa-pen': inDisabledState,

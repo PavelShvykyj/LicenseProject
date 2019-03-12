@@ -32,9 +32,9 @@ export class CoWokerComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.form = new FormGroup({
       Id: new FormControl(this.User.Id),
-      Email: new FormControl(this.User.SignIn.Email, Validators.required, UniqnessEmail(this.WebApi)),
-      UserName: new FormControl(this.User.SignIn.UserName, Validators.required, UniqnessUserName(this.WebApi)),
-      PhoneNumber: new FormControl(this.User.SignIn.PhoneNumber, Validators.required, UniqnessPhone(this.WebApi)),
+      Email: new FormControl(this.User.Contact.Email, Validators.required, UniqnessEmail(this.WebApi)),
+      UserName: new FormControl(this.User.Contact.UserName, Validators.required, UniqnessUserName(this.WebApi)),
+      PhoneNumber: new FormControl(this.User.Contact.PhoneNumber, Validators.required, UniqnessPhone(this.WebApi)),
       Password: new FormControl("",PasswordValid)
     });
 
@@ -148,15 +148,24 @@ export class CoWokerComponent implements OnInit, AfterViewInit {
     }
   }
 
+  formValid() : boolean {
+    let passwordValid : boolean = this.Password.valid || this.Id.value != "" || this.Id.value != "empty";
+    let formValid : boolean = this.Email.valid && this.PhoneNumber.valid && this.UserName.valid && passwordValid;
+    return formValid;
+  }
+
   async SaveChanges() {
 
-    if (!this.form.valid) {
+   
+ 
+    if (!this.formValid())   {
+      this.ShowPopMessage('Не верное заполнение формы',true)
       return;
     }
 
     let UserData: ISignInResource = {
       Id: this.Id.value,
-      SignIn: { Email: this.Email.value, UserName: this.UserName.value, PhoneNumber: this.PhoneNumber.value },
+      Contact: { Email: this.Email.value, UserName: this.UserName.value, PhoneNumber: this.PhoneNumber.value },
       Password : this.Password.value,
       Roles: []
     };
@@ -200,9 +209,9 @@ export class CoWokerComponent implements OnInit, AfterViewInit {
   UploadUserToForm() {
     setTimeout(() => {
       this.Id.patchValue(this.User.Id);
-      this.Email.patchValue(this.User.SignIn.Email);
-      this.UserName.patchValue(this.User.SignIn.UserName);
-      this.PhoneNumber.patchValue(this.User.SignIn.PhoneNumber);
+      this.Email.patchValue(this.User.Contact.Email);
+      this.UserName.patchValue(this.User.Contact.UserName);
+      this.PhoneNumber.patchValue(this.User.Contact.PhoneNumber);
       
     }, 10);
   }
@@ -210,14 +219,14 @@ export class CoWokerComponent implements OnInit, AfterViewInit {
   UploadFormToUser() {
     setTimeout(() => {
       this.User.Id = this.Id.value;
-      this.User.SignIn.Email = this.Email.value;
-      this.User.SignIn.UserName = this.UserName.value;
-      this.User.SignIn.PhoneNumber = this.PhoneNumber.value;
+      this.User.Contact.Email = this.Email.value;
+      this.User.Contact.UserName = this.UserName.value;
+      this.User.Contact.PhoneNumber = this.PhoneNumber.value;
     }, 10);
   }
 
   async SaveRoleChanges(Roles: Array<string>) {
-    if (!this.form.valid) {
+    if (!this.formValid()) {
       return;
     }
 
