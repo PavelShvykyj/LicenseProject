@@ -9,6 +9,7 @@ export class LicensesComponent implements OnInit {
 
   isExpanded = true;
   isListExpanded = false;
+  itemName = 'long name far far'
 
   constructor() { }
 
@@ -17,10 +18,16 @@ export class LicensesComponent implements OnInit {
 
   Expanded() {
     this.isExpanded = !this.isExpanded;
+    this.itemName = this.isExpanded ? 'long name far far' : 'SHT';
+
+   
+
   }
 
   ListExpanded() {
     this.isListExpanded = !this.isListExpanded;
+
+
   }
 
 }

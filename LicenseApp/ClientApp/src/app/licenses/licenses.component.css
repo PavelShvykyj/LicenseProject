@@ -6,6 +6,10 @@
     height: 100%;
 }
 
+.form-width-inherit {
+    width: 100%;
+}
+
 
 .form-col-5 {
     width: 5%
