@@ -1,0 +1,16 @@
+.form-hait-defoult {
+    height: 80vh;
+}
+
+.form-hait-inherit {
+    height: 100%;
+}
+
+
+.form-col-5 {
+    width: 5%
+}
+
+.form-col-95 {
+    width: 95%
+}

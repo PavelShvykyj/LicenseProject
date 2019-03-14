@@ -30,15 +30,14 @@
             <a class="nav-link text-dark" [routerLink]='["/users"]'>{{ 'NAV_BAR.Users'  | translate }}</a>
           </li>
         
-        
+          <li *ngIf="AccService.isInRole(0) || true" class="nav-item" routerLinkActive="link-active" [routerLinkActiveOptions]='{ exact: true }'>
+            <a class="nav-link text-dark" [routerLink]='["/licenses"]'>licenses</a>
+          </li>
         </ul>
       
-        
         <span *ngIf="AccService.User" id="loggDataText"  class="navbar-text"> 
           logged as {{ AccService.User.UserName}} 
         </span>
-
-      
       </div>
     
     
