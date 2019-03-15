@@ -1,39 +1,35 @@
 <div class="container form-hait-defoult">
   <div class="row form-hait-inherit border border-dark ">
-    <div class=" form-hait-inherit p-0" [ngClass]="{'col-auto': !isExpanded, 'col-2' : isExpanded}">
+    <div class="form-hait-inherit p-0 " [ngClass]="{'col-auto': !isExpanded, 'col-2' : isExpanded}">
 
-      <div class=" d-flex flex-column form-hait-inherit">
+      <div class=" d-flex flex-column  form-hait-inherit">
 
-        <nav class="navbar form-width-inherit  align-items-start bg-dark navbar-dark form-hait-inherit ">
+        <nav class="navbar form-width-inherit justify-content-end align-items-start bg-dark navbar-dark  ">
+          <div class="nav-item">
+            <button class="navbar-toggler" type="button" (click)="Expanded()"> f </button>
+          </div>
+        </nav>
 
+        <nav  class=" navbar scrollable form-width-inherit  align-items-start bg-dark navbar-dark ">
+          <ul class="navbar-nav form-width-inherit ">
+            <li *ngFor="let item of [1,2,3]" class="nav-item ">
+              <button class="btn btn-dark form-width-inherit">Act {{item}}</button>
+            </li>
+          </ul>
+        </nav>
 
-          <ul class="navbar-nav form-width-inherit">
-            <div class="nav-item">
-              <button class="navbar-toggler" type="button" (click)="Expanded()"> f </button>
-            </div>
-
-            <li class="nav-item ">
+        <nav class="navbar scrollable form-width-inherit form-hait-inherit align-items-start bg-dark navbar-dark  ">
+          <ul class="navbar-nav form-width-inherit ">
+            <li *ngFor="let item of [1,2,3,4,5]" class="nav-item ">
               <span class="nav-link" role="button" (click)="ListExpanded()">{{ itemName }} </span>
               <ul *ngIf="isListExpanded" class="navbar-nav d-flex justify-content-end">
                 <li class="nav-item  d-flex justify-content-end">
-                  <a class="nav-link" href="#">sub1</a>
+                  <span class="nav-link" href="#">sub1</span>
                 </li>
                 <li class="nav-item  d-flex justify-content-end">
-                  <a class="nav-link" href="#">sub2</a>
+                  <span class="nav-link" href="#">sub2</span>
                 </li>
               </ul>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#">{{ itemName }}</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#">{{ itemName }}</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{ itemName }}</a>
             </li>
           </ul>
         </nav>
@@ -45,8 +41,11 @@
         </div>
       </div>
     </div>
+    
+    
+    
+    
     <div class=" form-hait-inherit p-0 d-flex justify-content-center  align-items-center bg bg-warning" [ngClass]="{'col': !isExpanded , 'col-10' : isExpanded}">
-      
       <div class="card text-center w-75 h-75 ">
         <div class="card-header">
           Featured
@@ -60,7 +59,6 @@
           2 days ago
         </div>
       </div>
-      
     </div>
   </div>
 </div>
