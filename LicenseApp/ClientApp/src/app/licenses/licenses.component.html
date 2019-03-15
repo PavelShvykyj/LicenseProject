@@ -1,50 +1,57 @@
 <div class="container form-hait-defoult">
-  <div class="row form-hait-inherit border border-dark ">
+  <div class="row form-hait-inherit border border-dark bg bg-dark">
+    <!-- PANNEL COL  -->
     <div class="form-hait-inherit p-0 " [ngClass]="{'col-auto': !isExpanded, 'col-2' : isExpanded}">
 
-      <div class=" d-flex flex-column  form-hait-inherit">
-
-        <nav class="navbar form-width-inherit justify-content-end align-items-start bg-dark navbar-dark  ">
+      <div class=" d-flex flex-column  form-hait-inherit form-width-inherit  bg bg-dark">
+        <!-- toggle button  -->
+        <nav class="navbar form-width-inherit align-items-start justify-content-end bg-dark navbar-dark  border-bottom border-secondary">
           <div class="nav-item">
             <button class="navbar-toggler" type="button" (click)="Expanded()"> f </button>
           </div>
         </nav>
 
-        <nav  class=" navbar scrollable form-width-inherit  align-items-start bg-dark navbar-dark ">
-          <ul class="navbar-nav form-width-inherit ">
-            <li *ngFor="let item of [1,2,3]" class="nav-item ">
-              <button class="btn btn-dark form-width-inherit">Act {{item}}</button>
+        <!-- action buttons  -->
+        <nav  class="navbar form-hait-inherit-35  form-width-inherit scrollable align-items-start justify-content-stretch bg-dark navbar-dark px-0 border-bottom border-secondary">
+          <ul  class="navbar-nav px-0 form-width-inherit ">
+            <li *ngFor="let item of [1,2,3,4,5,6]" class="nav-item form-width-inherit">
+              <button class="btn btn-dark form-width-inherit px-0">Act {{item}}</button>
             </li>
           </ul>
         </nav>
 
-        <nav class="navbar scrollable form-width-inherit form-hait-inherit align-items-start bg-dark navbar-dark  ">
+        <!-- navigations  -->
+        <nav class="navbar flex-grow-1 form-hait-inherit-50 form-width-inherit scrollable  align-items-start justify-content-center bg-dark navbar-dark  px-0 border-bottom border-secondary">
           <ul class="navbar-nav form-width-inherit ">
             <li *ngFor="let item of [1,2,3,4,5]" class="nav-item ">
-              <span class="nav-link" role="button" (click)="ListExpanded()">{{ itemName }} </span>
-              <ul *ngIf="isListExpanded" class="navbar-nav d-flex justify-content-end">
+              <span class="nav-link pl-4" role="button" (click)="ListExpanded()">{{ itemName }} </span>
+              <ul *ngIf="isListExpanded" class="navbar-nav d-flex ">
                 <li class="nav-item  d-flex justify-content-end">
-                  <span class="nav-link" href="#">sub1</span>
+                  <span class="nav-link pr-1" href="#">sub1</span>
                 </li>
                 <li class="nav-item  d-flex justify-content-end">
-                  <span class="nav-link" href="#">sub2</span>
+                  <span class="nav-link pr-1" href="#">sub2</span>
                 </li>
               </ul>
             </li>
           </ul>
         </nav>
 
-        <div  class="bg bg-dark  btn-group d-flex  align-items-end" [ngClass]="{'flex-column': !isExpanded}" role="group">
+         <!-- little buttons  -->
+         <div  class=" bg bg-dark d-flex justify-content-between" [ngClass]="{'flex-column': !isExpanded}" role="group">
           <button type="button" class="btn btn-dark form-width-inherit">B1</button>
           <button type="button" class="btn btn-dark form-width-inherit">B1</button>
           <button type="button" class="btn btn-dark form-width-inherit">B3</button>
         </div>
+     
       </div>
+
+ 
     </div>
     
     
     
-    
+    <!-- BODY COL  -->
     <div class=" form-hait-inherit p-0 d-flex justify-content-center  align-items-center bg bg-warning" [ngClass]="{'col': !isExpanded , 'col-10' : isExpanded}">
       <div class="card text-center w-75 h-75 ">
         <div class="card-header">
