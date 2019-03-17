@@ -12,9 +12,9 @@
         </nav>
 
         <!-- action buttons  -->
-        <nav  class="navbar form-hait-inherit-35  form-width-inherit scrollable align-items-start justify-content-stretch bg-dark navbar-dark px-0 border-bottom border-secondary">
+        <nav  class="navbar form-hait-inherit-35  form-width-inherit scrollable align-items-start justify-content-stretch  navbar-dark px-0 border-bottom border-secondary">
           <ul  class="navbar-nav px-0 form-width-inherit ">
-            <li *ngFor="let item of [1,2,3,4,5,6]" class="nav-item form-width-inherit">
+            <li *ngFor="let item of [1,2,3]" class="nav-item form-width-inherit">
               <button class="btn btn-dark form-width-inherit px-0">Act {{item}}</button>
             </li>
           </ul>
@@ -36,6 +36,17 @@
             </li>
           </ul>
         </nav>
+
+        <!-- Info block  -->
+        <nav  class="navbar flex-grow-1 form-hait-inherit-35 form-width-inherit scrollable  align-items-start justify-content-center bg-dark navbar-dark py-1 px-0 border-bottom border-secondary">
+            <ul [hidden]="!isExpanded" class="list-group form-width-inherit  justify-content-center p-1">
+                <li *ngFor="let item of [1]" class="list-group-item infoblock  p-1">
+                    <div class="alert alert-warning p-1 m-0 orm-hait-inherit form-width-inherit" role="alert">
+                        A simple warning alert—check it out!
+                    </div>
+                </li>
+             </ul>
+        </nav>  
 
          <!-- little buttons  -->
          <div  class=" bg bg-dark d-flex justify-content-between" [ngClass]="{'flex-column': !isExpanded}" role="group">
