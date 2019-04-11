@@ -514,11 +514,14 @@ namespace LicenseApp.Controllers
             var query = from sq in subquery
                         join u in _context.Users
                         on sq.UserId equals u.Id
-                        select new { u.Id, Contatct = new { u.UserName, u.Email, u.PhoneNumber, u.Organisation }, u.Licenses, u.Licenses.Count }; 
+                        select new { u.Id, LUser = new { Contatct = new { u.UserName, u.Email, u.PhoneNumber, u.Organisation }, u.Licenses, u.Licenses.Count } };
 
 
-            var res = await query.ToListAsync();
-            return Ok(res);
+            var UserState = await query.ToDictionaryAsync(lu => lu.Id, lu => lu.LUser);
+            var UserKeys = UserState.Keys.ToList();
+            var Res = new { UserState = UserState, UserKeys = UserKeys };
+            //ToListAsync();
+            return Ok(Res);
         }
 
         [HttpGet]

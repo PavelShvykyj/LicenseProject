@@ -19,3 +19,30 @@ export interface ISignInResource {
         Password? : string,
         Roles  : Array<string>
 }
+
+
+export interface ILicense {
+  Id : number,
+  Name : string, 
+  Expired : Date,
+  Quontity : number,
+  DemoMode : boolean,
+  DataLifeDurationInDemo : number,
+  UserId : string 
+}
+
+export interface ILicenseUserData {
+  Contatct : IContact,
+  Count : number,
+  Licenses : Array<ILicense>
+}
+
+export interface ILicenseUserState {
+  [key: string]: ILicenseUserData
+
+}
+
+export interface ILicenseUsers {
+  UserState : ILicenseUserState,
+  UserKeys : Array<string>
+}

@@ -1,8 +1,9 @@
 import { ILoginData } from './Interfaces/ILoginData';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ISignInResource } from './Interfaces/IUserData';
+import { ISignInResource, ILicenseUserState,  ILicenseUsers } from './Interfaces/IUserData';
 import { map, delay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class WebApiService {
@@ -45,6 +46,22 @@ export class WebApiService {
     }).toPromise()
 
     return request;
+  }
+
+  GetLiceseUsers() : Observable<ILicenseUsers> {
+    let token = localStorage.getItem("token");
+    let headers = new HttpHeaders().append('Authorization', 'Bearer ' + token).append('Content-Type', 'text/json')
+    let connection = this.BASE_URL + "/licenseusers";
+
+    return this.http.get(connection, {
+      headers: headers,
+      observe: 'body',
+      withCredentials: true,
+      reportProgress: false,
+      responseType: 'text'
+    }).pipe(map(res => JSON.parse(res)));
+
+     
   }
 
 

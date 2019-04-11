@@ -28,7 +28,8 @@ import { CoWokersComponent } from './co-wokers/co-wokers.component';
 import { RemoveSymbolsDirective } from './directives/remove-symbols.directive';
 import { DisableFormcontrolDirective } from './directives/disable-formcontrol.directive';
 import { CoWokerRolesComponent } from './co-woker-roles/co-woker-roles.component';
-
+import { LicensesResolver } from "./resolvers/licenses.resolver";
+import { FilterInputComponent } from './filter-input/filter-input.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { CoWokerRolesComponent } from './co-woker-roles/co-woker-roles.component
     MessagesComponent,
     RemoveSymbolsDirective,
     DisableFormcontrolDirective,
-    CoWokerRolesComponent
+    CoWokerRolesComponent,
+    FilterInputComponent
   ],
   
   imports: [
@@ -72,7 +74,7 @@ import { CoWokerRolesComponent } from './co-woker-roles/co-woker-roles.component
       { path: 'logout', component: LogoutComponent },
       { path: 'users', component: CoWokersComponent, canActivate : [AdminGuard] },
       { path: 'user/:userId', component: CoWokerComponent, canActivate : [AdminGuard]},
-      { path: 'licenses', component: LicensesComponent, canActivate : [AuthGuard]  },
+      { path: 'licenses', component: LicensesComponent, canActivate : [AuthGuard] , resolve : {key : LicensesResolver }  },
       { path: 'license/:licenseId', component: LicenseComponent, canActivate : [AuthGuard]   },
 
     ]
@@ -84,7 +86,8 @@ import { CoWokerRolesComponent } from './co-woker-roles/co-woker-roles.component
     AccauntService,
     AuthGuard,
     AdminGuard,
-    ManagerGuard
+    ManagerGuard,
+    LicensesResolver
     ],
 
   bootstrap: [AppComponent]
