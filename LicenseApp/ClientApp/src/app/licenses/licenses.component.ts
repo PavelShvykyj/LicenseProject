@@ -23,6 +23,7 @@ export class LicensesComponent implements OnInit {
    }
 
   ngOnInit() {
+    console.log(this.licenseUsers);
   }
 
   Expanded() {
@@ -44,6 +45,10 @@ export class LicensesComponent implements OnInit {
     console.log('filter event',event);
 
   }
+
+  OnLicenseUserChanged(event) {
+    console.log('user changet event',event);
+  } 
 
 
 }

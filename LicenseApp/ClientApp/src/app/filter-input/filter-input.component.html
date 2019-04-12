@@ -2,9 +2,9 @@
   <h6 class="card-header py-1">Filter for {{filterName}}</h6>
   <div class="card-body p-2">
     <div class="input-group">
-      <input type="text" class="form-control py-1 input-filter-font" #inputelement (input)="OnFilterInput(inputelement.value)"   aria-label="filter" aria-describedby="button-clearfilter">
+      <input type="text" class="form-control py-1 input-filter-font" [(ngModel)]="filterValue" (input)="OnFilterInput()"   aria-label="filter" aria-describedby="button-clearfilter">
       <div class="input-group-append input-filter-font">
-        <button class="btn btn-outline-dark py-0" type="button" id="button-clearfilter" (click)="ClearFilter(inputelement)" >
+        <button class="btn btn-outline-dark py-0" type="button" id="button-clearfilter" (click)="ClearFilter()" >
           <i class="fas fa-trash  py-0"></i>
         </button>
       </div>

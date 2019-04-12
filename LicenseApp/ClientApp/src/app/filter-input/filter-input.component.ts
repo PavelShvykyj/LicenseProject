@@ -9,7 +9,7 @@ export class FilterInputComponent implements OnInit {
 
   @Input('FilterName') filterName : string  ;
   @Output('FilterChagedEmiter') filterChaged = new EventEmitter();
-  
+  filterValue : string = "";
 
 
   constructor() { }
@@ -18,18 +18,17 @@ export class FilterInputComponent implements OnInit {
     
   }
 
-  OnFilterInput(value : string) {
+  OnFilterInput() {
     let eventValue = {
       filterName : this.filterName,
-      filterValue : value
+      filterValue : this.filterValue
     }
     this.filterChaged.emit(eventValue);
   }
 
   ClearFilter(inputelement) {
-    console.log(inputelement);
-    this.OnFilterInput("");  
-
+    this.filterValue = "";
+    this.OnFilterInput();  
   }
 
 }

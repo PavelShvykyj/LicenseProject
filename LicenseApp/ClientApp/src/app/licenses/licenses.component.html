@@ -63,21 +63,58 @@
     
     
     <!-- BODY COL  -->
-    <div class=" form-hait-inherit p-0 d-flex justify-content-center  align-items-start bg bg-warning" [ngClass]="{'col': !isExpanded , 'col-10' : isExpanded}">
+    <div class=" form-hait-inherit p-0 d-flex flex-column   bg-amber-50" [ngClass]="{'col': !isExpanded , 'col-10' : isExpanded}">
     
       <!-- filters  -->
-      <div class="row mt-1 mx-1  w-100">
-        <div class="col-auto d-flex align-items-start justify-content-between px-0 w-100">
+      <div class="row py-1 mx-0  w-100">
+        <div class="col-auto d-flex  align-items-start justify-content-between px-0 w-100">
           <filter-input class="m-1" FilterName="Name" (FilterChagedEmiter)="OnFilterChanged($event)" ></filter-input>
           <filter-input class="m-1" FilterName="Email" (FilterChagedEmiter)="OnFilterChanged($event)" ></filter-input>
           <filter-input class="m-1" FilterName="Phone" (FilterChagedEmiter)="OnFilterChanged($event)" ></filter-input>  
-          <filter-input class="m-1" FilterName="Count" (FilterChagedEmiter)="OnFilterChanged($event)" ></filter-input>  
+          <filter-input class="m-1" FilterName="ID" (FilterChagedEmiter)="OnFilterChanged($event)" ></filter-input>  
           
         </div>
       </div>
 
 
-      <!-- table  -->
+      
+      <div class="row align-items-start mx-0   w-100">
+        <!-- table  -->
+        <div class="col-10  d-flex flex-column align-items-start justify-content-between px-0 w-100">
+          <ng-container *ngFor="let LicenseUserID of licenseUsersFiltered.UserKeys "> 
+            <app-license class="px-1 " [LicenseUserData]="licenseUsersFiltered.UserState[LicenseUserID]" [LicenseUserID]="LicenseUserID" (LicenseUserChangedEmitter)="OnLicenseUserChanged($event)"></app-license>
+          </ng-container>
+        
+        </div>
+        <!-- info panel -->
+        <div class="col-2  d-flex flex-column align-items-start justify-content-between px-1 w-100">
+          
+          <div class="card w-100 font-s-70 mb-1">
+            <div class="card-header text-white bg-secondary py-1">
+              License 1 info: 
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item py-2">exp: 2019.03.12</li>
+              <li class="list-group-item py-2">Demo: no</li>
+              <li class="list-group-item py-2">Name: test  </li>
+            </ul>
+          </div>
+
+          <div class="card w-100 font-s-70">
+            <div class="card-header text-white bg-secondary py-1">
+              License 2 info: 
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item py-2">exp: 2019.03.12</li>
+              <li class="list-group-item py-2">Demo: yes</li>
+              <li class="list-group-item py-2">Name: demo UNF  </li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>      
+      
 
     </div>
   

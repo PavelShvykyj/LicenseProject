@@ -29,7 +29,6 @@
 
 .scrollable {
     overflow: auto !important;
-    
 }
 
 .infoblock {
@@ -38,8 +37,18 @@
     width: 100%;
     min-width: 100%;
     opacity : 1;
-    
+}
 
+.bg-amber-50 {
+    background-color: #FFF8E1;
+}
+
+.bg-amber-100 {
+    background-color: #FFECB3;
+}
+
+.font-s-70 {
+    font-size: 70%;
 }
 
 

@@ -514,7 +514,7 @@ namespace LicenseApp.Controllers
             var query = from sq in subquery
                         join u in _context.Users
                         on sq.UserId equals u.Id
-                        select new { u.Id, LUser = new { Contatct = new { u.UserName, u.Email, u.PhoneNumber, u.Organisation }, u.Licenses, u.Licenses.Count } };
+                        select new { u.Id, LUser = new { Contact = new { u.UserName, u.Email, u.PhoneNumber, u.Organisation }, u.Licenses, u.Licenses.Count } };
 
 
             var UserState = await query.ToDictionaryAsync(lu => lu.Id, lu => lu.LUser);

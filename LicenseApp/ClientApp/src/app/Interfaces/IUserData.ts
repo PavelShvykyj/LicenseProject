@@ -10,7 +10,7 @@ export interface  IContact {
 	Email         : string,
 	PhoneNumber   : string,
 	PersonName?    : string,
-	Organization?  : string
+	Organisation?  : string
 }
 
 export interface ISignInResource {
@@ -32,7 +32,7 @@ export interface ILicense {
 }
 
 export interface ILicenseUserData {
-  Contatct : IContact,
+  Contact : IContact,
   Count : number,
   Licenses : Array<ILicense>
 }
