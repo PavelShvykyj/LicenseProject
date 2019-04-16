@@ -7,21 +7,46 @@
         <!-- toggle button  -->
         <nav class="navbar form-width-inherit align-items-start justify-content-end bg-dark navbar-dark  border-bottom border-secondary">
           <div class="nav-item">
-            <button class="navbar-toggler" type="button" (click)="Expanded()"> f </button>
+            <button class="navbar-toggler" type="button" (click)="Expanded()">
+              <i [ngClass]="{
+                'fas': true,
+                'fa-angle-left': isExpanded,
+                'fa-angle-right': !isExpanded
+                 }">
+              </i>
+            </button>
           </div>
         </nav>
 
         <!-- action buttons  -->
-        <nav  class="navbar form-hait-inherit-35  form-width-inherit scrollable align-items-start justify-content-stretch  navbar-dark px-0 border-bottom border-secondary">
-          <ul  class="navbar-nav px-0 form-width-inherit ">
-            <li *ngFor="let item of [1,2,3]" class="nav-item form-width-inherit">
-              <button class="btn btn-dark form-width-inherit px-0">Act {{item}}</button>
+        <nav class="navbar flex-grow-1  form-width-inherit scrollable align-items-start justify-content-stretch  navbar-dark px-0 border-bottom border-secondary">
+          <ul class="navbar-nav px-0 form-width-inherit ">
+            
+            <li class="nav-item form-width-inherit">
+              <button class="btn btn-dark form-width-inherit  px-0" (click)="AddNewLicenseUser()"> New </button>
             </li>
+            
+            <li class="nav-item form-width-inherit">
+              <button class="btn btn-dark form-width-inherit  px-0"> 
+                  <span *ngIf="isExpanded">New license</span> 
+                  <span *ngIf="!isExpanded" class="font-s-70">New lic. </span> 
+                </button>
+            </li>
+          
+            <li class="nav-item form-width-inherit">
+              <button class="btn btn-dark form-width-inherit  px-0"> 
+                <span *ngIf="isExpanded">Delete</span> 
+                <span *ngIf="!isExpanded">Del.</span> 
+              </button>
+            </li>
+
+
+          
           </ul>
         </nav>
 
         <!-- navigations  -->
-        <nav class="navbar flex-grow-1 form-hait-inherit-50 form-width-inherit scrollable  align-items-start justify-content-center bg-dark navbar-dark  px-0 border-bottom border-secondary">
+        <!--<nav class="navbar flex-grow-1 form-hait-inherit-50 form-width-inherit scrollable  align-items-start justify-content-center bg-dark navbar-dark  px-0 border-bottom border-secondary">
           <ul class="navbar-nav form-width-inherit ">
             <li *ngFor="let item of [1,2,3,4,5]" class="nav-item ">
               <span class="nav-link pl-4" role="button" (click)="ListExpanded()">{{ itemName }} </span>
@@ -35,24 +60,18 @@
               </ul>
             </li>
           </ul>
-        </nav>
+        </nav> -->
 
         <!-- Info block  -->
-        <nav  class="navbar flex-grow-1 form-hait-inherit-35 form-width-inherit scrollable  align-items-start justify-content-center bg-dark navbar-dark py-1 px-0 border-bottom border-secondary">
-            <ul [hidden]="!isExpanded" class="list-group form-width-inherit  justify-content-center p-1">
-                <li *ngFor="let item of [1]" class="list-group-item infoblock  p-1">
-                    <div class="alert alert-warning p-1 m-0 orm-hait-inherit form-width-inherit" role="alert">
-                        A simple warning alert—check it out!
-                    </div>
-                </li>
-             </ul>
-        </nav>  
+        <nav class="navbar flex-grow-1 form-hait-inherit-35 form-width-inherit scrollable  align-items-start justify-content-center bg-dark navbar-dark py-1 px-0 border-bottom border-secondary">
+          <messages [hidden]="!isExpanded" [historyLenth]=4 class="form-width-inherit  justify-content-center p-1"></messages>
+        </nav>
 
          <!-- little buttons  -->
-         <div  class=" bg bg-dark d-flex justify-content-between" [ngClass]="{'flex-column': !isExpanded}" role="group">
-          <button type="button" class="btn btn-dark form-width-inherit">B1</button>
-          <button type="button" class="btn btn-dark form-width-inherit">B1</button>
-          <button type="button" class="btn btn-dark form-width-inherit">B3</button>
+         <div class=" bg bg-dark d-flex justify-content-between" [ngClass]="{'flex-column': !isExpanded}" role="group">
+          <button type="button" class="btn btn-dark form-width-inherit"><i class="fas fa-sign-out-alt"></i></button>
+          <button type="button" class="btn btn-dark form-width-inherit"><i class="fas fa-print"></i></button>
+          <button type="button" class="btn btn-dark form-width-inherit"><i class="fas fa-sync-alt" (click)="Update()"></i></button>
         </div>
      
       </div>
@@ -68,9 +87,9 @@
       <!-- filters  -->
       <div class="row py-1 mx-0  w-100">
         <div class="col-auto d-flex  align-items-start justify-content-between px-0 w-100">
-          <filter-input class="m-1" FilterName="Name" (FilterChagedEmiter)="OnFilterChanged($event)" ></filter-input>
+          <filter-input class="m-1" FilterName="UserName" (FilterChagedEmiter)="OnFilterChanged($event)" ></filter-input>
           <filter-input class="m-1" FilterName="Email" (FilterChagedEmiter)="OnFilterChanged($event)" ></filter-input>
-          <filter-input class="m-1" FilterName="Phone" (FilterChagedEmiter)="OnFilterChanged($event)" ></filter-input>  
+          <filter-input class="m-1" FilterName="PhoneNumber" (FilterChagedEmiter)="OnFilterChanged($event)" ></filter-input>  
           <filter-input class="m-1" FilterName="ID" (FilterChagedEmiter)="OnFilterChanged($event)" ></filter-input>  
           
         </div>
@@ -82,7 +101,7 @@
         <!-- table  -->
         <div class="col-10  d-flex flex-column align-items-start justify-content-between px-0 w-100">
           <ng-container *ngFor="let LicenseUserID of licenseUsersFiltered.UserKeys "> 
-            <app-license class="px-1 " [LicenseUserData]="licenseUsersFiltered.UserState[LicenseUserID]" [LicenseUserID]="LicenseUserID" (LicenseUserChangedEmitter)="OnLicenseUserChanged($event)"></app-license>
+            <app-license class="px-1 " [LicenseUserData]="licenseUsersFiltered.UserState[LicenseUserID]" [LicenseUserID]="LicenseUserID" (LicenseUserMessageEmitter)="OnLicenseUserMessage($event)" (LicenseUserChangedEmitter)="OnLicenseUserChanged($event)"></app-license>
           </ng-container>
         
         </div>

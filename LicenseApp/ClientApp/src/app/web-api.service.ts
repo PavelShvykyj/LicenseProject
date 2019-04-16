@@ -48,20 +48,20 @@ export class WebApiService {
     return request;
   }
 
-  GetLiceseUsers() : Observable<ILicenseUsers> {
+  async GetLiceseUsers() : Promise<ILicenseUsers> {
     let token = localStorage.getItem("token");
     let headers = new HttpHeaders().append('Authorization', 'Bearer ' + token).append('Content-Type', 'text/json')
     let connection = this.BASE_URL + "/licenseusers";
 
-    return this.http.get(connection, {
+    let request = await  this.http.get(connection, {
       headers: headers,
       observe: 'body',
       withCredentials: true,
       reportProgress: false,
       responseType: 'text'
-    }).pipe(map(res => JSON.parse(res)));
+    }).pipe(map(res => JSON.parse(res))).toPromise();
 
-     
+    return request; 
   }
 
 
@@ -137,6 +137,25 @@ export class WebApiService {
 
   }
 
+  async UpdateLicenseUser(UserData : ISignInResource ) : Promise<string> {
+ 
+    let token = localStorage.getItem("token");
+    let headers = new HttpHeaders().append('Authorization', 'Bearer ' + token).append('Content-Type', 'text/json')
+    let connection = this.BASE_URL + "/updatelicenseuser/"+UserData.Id;
+    
+    let request = await this.http.post(connection, UserData , {
+      headers: headers,
+      observe: 'body',
+      withCredentials: true,
+      reportProgress: false,
+      responseType: 'text'
+    }).toPromise()
+
+    return request;
+
+  }
+
+
   async UpdateUserRoles(userid : string , UserRoles : Array<string> ) : Promise<string> {
  
     let token = localStorage.getItem("token");
@@ -172,6 +191,23 @@ export class WebApiService {
 
   } 
 
+  async SigninLicense(UserData : ISignInResource) : Promise<string> {
+    let token = localStorage.getItem("token");
+    let headers = new HttpHeaders().append('Authorization', 'Bearer ' + token).append('Content-Type', 'text/json')
+    let connection = this.BASE_URL + "/SignInLicense";
+    
+    let request = await this.http.post(connection, UserData , {
+      headers: headers,
+      observe: 'body',
+      withCredentials: true,
+      reportProgress: false,
+      responseType: 'text'
+    }).toPromise()
+
+    return request;
+
+  } 
+
   async DeleteUser(userid : string) : Promise<string> {
     let token = localStorage.getItem("token");
       let headers = new HttpHeaders().append('Authorization', 'Bearer ' + token).append('Content-Type', 'text/json')
@@ -188,4 +224,5 @@ export class WebApiService {
       return request;
   }
 
+  
 }

@@ -372,7 +372,7 @@ namespace LicenseApp.Controllers
                 Email = UserData.Contact.Email,
                 UserName = UserData.Contact.UserName,
                 PhoneNumber = UserData.Contact.PhoneNumber,
-                Organisation = UserData.Contact.Organization
+                Organisation = UserData.Contact.Organisation
 
             };
 
@@ -406,7 +406,7 @@ namespace LicenseApp.Controllers
             user.Email = UserData.Contact.Email;
             user.UserName = UserData.Contact.UserName;
             user.PhoneNumber = UserData.Contact.PhoneNumber;
-            user.Organisation = UserData.Contact.Organization;
+            user.Organisation = UserData.Contact.Organisation;
 
 
             if (UserData.Password != "")

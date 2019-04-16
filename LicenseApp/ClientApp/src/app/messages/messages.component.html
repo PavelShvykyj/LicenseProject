@@ -1,3 +1,22 @@
-<p>
-  messages works!
-</p>
+
+<ul *ngIf="controlsImpotent.length !=0" class="list-group m-0">
+  <li class="list-group-item infoblock message p-1"
+    
+    *ngFor="let element of controlsImpotent"
+
+
+    (click)="DeleteMessage(element.contol)"
+  >
+    <div class="p-1 m-0"
+        [ngClass]="{
+          'alert': true,
+          'alert-danger': element.impotent == messageSate.Error,
+          'alert-warning': element.impotent == messageSate.Info,
+          'alert-success': element.impotent == messageSate.Sucsess}"
+    
+        role="alert">
+        {{element.control.value}}
+    </div>
+  </li>
+  
+</ul>

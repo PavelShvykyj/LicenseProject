@@ -5,30 +5,30 @@
     <div class="col-auto align-self-center ">
         <div class="input-group bg-light" >
           <div class="input-group-prepend font-s-70" >
-            <span [id]="Id" [ngClass]="{'text-warning': isDeleted || Id.value == '' || Id.value == 'empty',  'bg-dark': isDeleted || Id.value == ''|| Id.value == 'empty'}" class="input-group-text" >L.q.: {{User.Count}}</span>
-            <span [ngClass]="{'text-warning': isDeleted ,  'bg-dark': isDeleted}" *ngIf="isDeleted" class="input-group-text" id="">Deleted</span>
-            <span [ngClass]="{'text-warning': Id.value == '' || Id.value == 'empty' ,  'bg-dark': Id.value == '' || Id.value == 'empty'}" *ngIf="Id.value == '' || Id.value == 'empty'" class="input-group-text" id="">New</span>
+            <span [id]="UserId" [ngClass]="{'text-warning': isDeleted || Id.value == '' || Id.value == 'empty',  'bg-dark': isDeleted || Id.value == ''|| Id.value == 'empty'}" class="input-group-text font-s-70" >L.q.: {{User.Count}}</span>
+            <span [ngClass]="{'text-warning': isDeleted ,  'bg-dark': isDeleted}" *ngIf="isDeleted" class="input-group-text font-s-70" id="">Deleted</span>
+            <span [ngClass]="{'text-warning': Id.value == '' || Id.value == 'empty' ,  'bg-dark': Id.value == '' || Id.value == 'empty'}" *ngIf="Id.value == '' || Id.value == 'empty'" class="input-group-text font-s-70" id="">New</span>
           </div>
           <input formControlName="Id" hidden  type="text" class="form-control font-s-70" placeholder="Id">
-          <input [disableControl]="inDisabledState" formControlName="Password" (OnDirectiveChange) = "OnDirectiveChange($event)"  [RemoveSymbols]="[' ']"  type="password" class="form-control font-s-70" class="form-control bg" [ngClass]="{'is-invalid': Password.invalid, 'is-valid': Password.valid}" placeholder="Password"> 
+          <input [disableControl]="inDisabledState" formControlName="Password" (OnDirectiveChange) = "OnDirectiveChange($event)"  [RemoveSymbols]="[' ']"  type="password" class="form-control font-s-70" class="form-control font-s-70" [ngClass]="{'is-invalid': Password.invalid, 'is-valid': Password.valid}" placeholder="Password"> 
           <!-- disableControl - наша директива, применяется для блокирования форм контролов почему так см в саму директиву-->
           <input [disableControl]="inDisabledState" formControlName="Email" (OnDirectiveChange) = "OnDirectiveChange($event)" [RemoveSymbols]="[' ']" type="email" class="form-control font-s-70" [ngClass]="{'is-invalid': Email.invalid, 'is-valid': Email.valid, 'bg-warning' : Email.pending && Email.dirty}" placeholder="Email">
           <input [disableControl]="inDisabledState" formControlName="UserName" (OnDirectiveChange) = "OnDirectiveChange($event)" [RemoveSymbols]="[' ']" type="text" class="form-control font-s-70"  [ngClass]="{'is-invalid': UserName.invalid, 'is-valid': UserName.valid, 'bg-warning' : UserName.pending && UserName.dirty}" placeholder="UserName" aria-describedby="UserNameHelpBlock">
-          <input [disableControl]="inDisabledState" formControlName="Organization" (OnDirectiveChange) = "OnDirectiveChange($event)" [RemoveSymbols]="[' ']" type="text" class="form-control font-s-70"  [ngClass]="{'is-invalid': Organization.invalid, 'is-valid': Organization.valid, 'bg-warning' : Organization.pending && Organization.dirty}" placeholder="Organization" >
+          <input [disableControl]="inDisabledState" formControlName="Organisation" (OnDirectiveChange) = "OnDirectiveChange($event)" [RemoveSymbols]="[' ']" type="text" class="form-control font-s-70"  [ngClass]="{'is-invalid': Organisation.invalid, 'is-valid': Organisation.valid, 'bg-warning' : Organisation.pending && Organisation.dirty}" placeholder="Organisation" >
   
           <input [disableControl]="inDisabledState" formControlName="PhoneNumber" (OnDirectiveChange) = "OnDirectiveChange($event)" [RemoveSymbols]="[' ', '-', '\\)', '\\(', '\\+']" type="tel" class="form-control font-s-70" [ngClass]="{'is-invalid': PhoneNumber.invalid, 'is-valid': PhoneNumber.valid, 'bg-warning' : PhoneNumber.pending && PhoneNumber.dirty}"  placeholder="PhoneNumber">
           <div class="input-group-append ">
-            <button class="btn btn-outline-secondary font-s-70" type="button" (click) = "ChangeOrUndo()">
+            <button class="btn btn-outline-secondary font-s-70 py-0" type="button" (click) = "ChangeOrUndo()">
               <i  class="fas" [ngClass]="{'fa-pen': inDisabledState,
                                           'fa-undo': !inDisabledState}">
               </i>
             </button>
            
-            <button [disabled]="inDisabledState" class="btn btn-outline-secondary" type="button" (click)="MarkDeleted()">
-                <i class="fas fa-trash"></i>
+            <button [disabled]="inDisabledState" class="btn btn-outline-secondary py-0" type="button" (click)="MarkDeleted()">
+                <i class="fas fa-trash "></i>
             </button>
-            <button [disabled]="inDisabledState" class="btn btn-outline-secondary" type="button" (click)="SaveChanges()" >
-                <i class="fas fa-tablet-alt"></i>
+            <button [disabled]="inDisabledState" class="btn btn-outline-secondary py-0" type="button" (click)="SaveChanges()" >
+                <i class="fas fa-tablet-alt "></i>
             </button>
           </div>
         </div>

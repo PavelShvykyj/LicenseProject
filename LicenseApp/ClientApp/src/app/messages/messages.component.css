@@ -1,0 +1,12 @@
+.message {
+    font-size: small;
+}
+
+
+.infoblock {
+    background: #616161;
+    color: #CFD8DC;
+    width: 100%;
+    min-width: 100%;
+    opacity : 1;
+}

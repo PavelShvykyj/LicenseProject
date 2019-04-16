@@ -51,6 +51,10 @@
     font-size: 70%;
 }
 
+.font-s-50 {
+    font-size: 50%;
+}
+
 
 ::-webkit-scrollbar {
     width: 5%;

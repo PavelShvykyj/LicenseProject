@@ -153,9 +153,6 @@ export class CoWokerComponent implements OnInit, AfterViewInit {
   }
 
   async SaveChanges() {
-
-   
- 
     if (!this.formValid())   {
       this.ShowPopMessage('Не верное заполнение формы',true)
       return;

@@ -13,7 +13,7 @@ namespace LicenseApp.Controllers.DTO
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string PersonName { get; set; }
-        public string Organization { get; set; }
+        public string Organisation { get; set; }
     }
 
     public class ContactUserUpdateDTO
@@ -24,7 +24,7 @@ namespace LicenseApp.Controllers.DTO
         public string Email { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
-        public string Organization { get; set; }
+        public string Organisation { get; set; }
     }
 
     public class ContactUserCreateDTO
@@ -35,7 +35,7 @@ namespace LicenseApp.Controllers.DTO
         public string Email { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
-        public string Organization { get; set; }
+        public string Organisation { get; set; }
     }
 
     public class ContactLicenseUpdateDTO
@@ -47,7 +47,7 @@ namespace LicenseApp.Controllers.DTO
         [Required]
         public string PhoneNumber { get; set; }
         [Required]
-        public string Organization { get; set; }
+        public string Organisation { get; set; }
     }
 
     public class ContactLicenseCreateDTO
@@ -59,7 +59,7 @@ namespace LicenseApp.Controllers.DTO
         [Required]
         public string PhoneNumber { get; set; }
         [Required]
-        public string Organization { get; set; }
+        public string Organisation { get; set; }
     }
 
 }
