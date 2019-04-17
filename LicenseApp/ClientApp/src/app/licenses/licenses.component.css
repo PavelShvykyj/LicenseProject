@@ -6,6 +6,12 @@
     height: 100%;
 }
 
+
+.form-hait-inherit-90 {
+    max-height: 90%;
+}
+
+
 .form-hait-inherit-50 {
     max-height: 55%;
 }
@@ -30,6 +36,12 @@
 .scrollable {
     overflow: auto !important;
 }
+
+.scrollable-y {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
 
 .infoblock {
     background: #616161;

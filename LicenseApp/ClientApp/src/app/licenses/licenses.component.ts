@@ -19,7 +19,7 @@ export class LicensesComponent implements OnInit {
   licenseUsers : ILicenseUsers;
   licenseUsersFiltered : ILicenseUsers;
   filter : IdataObject = {};
-
+  curentLicenseUserId : string = '';
 
   @ViewChild(MessagesComponent)
   messageComponent: MessagesComponent;
@@ -28,7 +28,8 @@ export class LicensesComponent implements OnInit {
   constructor(private rout : ActivatedRoute, private ApiService : WebApiService ) {
     this.rout.data.subscribe(res => {
       this.licenseUsers = res.key;
-      this.licenseUsersFiltered = res.key;  
+      this.licenseUsersFiltered = res.key;
+      this.curentLicenseUserId = this.licenseUsers.UserKeys[0];  
     });
    }
 
@@ -74,12 +75,12 @@ export class LicensesComponent implements OnInit {
   }
 
   OnFilterChanged(event) {
-    console.log('filter event',event);
     this.filter[event.filterName] = event.filterValue;
     this.ApplyFilter()
   }
 
   OnLicenseUserChanged(event) {
+    this.curentLicenseUserId = event;
     console.log('user changet event',event);
   } 
 

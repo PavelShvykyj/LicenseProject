@@ -18,7 +18,11 @@
   
           <input [disableControl]="inDisabledState" formControlName="PhoneNumber" (OnDirectiveChange) = "OnDirectiveChange($event)" [RemoveSymbols]="[' ', '-', '\\)', '\\(', '\\+']" type="tel" class="form-control font-s-70" [ngClass]="{'is-invalid': PhoneNumber.invalid, 'is-valid': PhoneNumber.valid, 'bg-warning' : PhoneNumber.pending && PhoneNumber.dirty}"  placeholder="PhoneNumber">
           <div class="input-group-append ">
-            <button class="btn btn-outline-secondary font-s-70 py-0" type="button" (click) = "ChangeOrUndo()">
+            <button class="btn btn-outline-secondary font-s-70 py-0"
+                    type="button"
+                    (click) = "ChangeOrUndo()"
+                    (mouseenter)="Onmouseover()"
+                    >
               <i  class="fas" [ngClass]="{'fa-pen': inDisabledState,
                                           'fa-undo': !inDisabledState}">
               </i>

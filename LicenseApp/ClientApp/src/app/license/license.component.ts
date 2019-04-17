@@ -228,4 +228,12 @@ export class LicenseComponent implements OnInit, AfterViewInit {
     this[event.name].patchValue(event.value);
     this[event.name].updateValueAndValidity({ onlySelf: true });
   }    
+
+  Onmouseover() {
+    this.LicenseUserChangedEmitter.emit(this.UserId);
+  }
+  
+  
+
+
 }
