@@ -15,7 +15,8 @@ export class LicensesResolver implements Resolve<ILicenseUsers> {
     }
 
     resolve(rout : ActivatedRouteSnapshot , sate : RouterStateSnapshot) : Promise<ILicenseUsers> | Promise<undefined> {
-       return this.ApiService.GetLiceseUsers();
+        /// GetLiceseUsers - имеет необязательный параметр rout.params.userId либо задан либо UNDEFINDED, т.е. либо поличим функцию с парамтром если rout.params.userId задан или UNDEFINDED непройдет проверку необязательного параметра
+        return this.ApiService.GetLiceseUsers(rout.params.userId);
     }
 
 }

@@ -18,6 +18,7 @@ namespace LicenseApp.Mapping
             CreateMap<LicenseUpdateDTO, License>()
                 .ForMember(L => L.Id, opt => opt.Ignore());
             CreateMap<License, LicenseUpdateDTO>();
+            CreateMap<User, ContactDTO>();
         }
     }
 }

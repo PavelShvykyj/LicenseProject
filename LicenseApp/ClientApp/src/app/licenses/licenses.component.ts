@@ -80,8 +80,17 @@ export class LicensesComponent implements OnInit {
   }
 
   OnLicenseUserChanged(event) {
+    this.curentLicenseUserId = event.id;
+    this.licenseUsers.UserState[event.id] = event.LicenseUserData;
+    if(!this.licenseUsers.UserKeys.indexOf(event.id)) {
+      this.licenseUsers.UserKeys.push(event.id);
+    }
+    this.curentLicenseUserId = event.id;
+    console.log('after emit', this.licenseUsers);
+  } 
+
+  OnLicenseUserMouseOwer(event) {
     this.curentLicenseUserId = event;
-    console.log('user changet event',event);
   } 
 
   OnLicenseUserMessage(event) {
@@ -111,7 +120,7 @@ export class LicensesComponent implements OnInit {
   }
 
   Update() {
-     this.ApiService.GetLiceseUsers().then(res => {
+    this.ApiService.GetLiceseUsers().then(res => {
       this.licenseUsers = res;
       this.licenseUsersFiltered = res;  
     })
@@ -124,5 +133,10 @@ export class LicensesComponent implements OnInit {
     this.licenseUsersFiltered = this.licenseUsers;
   }
 
+  
+
+  Test() {
+    this.ApiService.DownloadFile("hellow world","test.txt");
+  }
 
 }

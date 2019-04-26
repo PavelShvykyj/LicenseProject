@@ -1,16 +1,18 @@
 import { ILoginData } from './Interfaces/ILoginData';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ISignInResource, ILicenseUserState,  ILicenseUsers } from './Interfaces/IUserData';
-import { map, delay } from 'rxjs/operators';
+import { map, delay, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { ResponseContentType } from '@angular/http';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable()
 export class WebApiService {
   private BASE_URL: string = "/api";
   
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private sanitizer: DomSanitizer) { }
 
 
   async Login(userData: ILoginData): Promise<string> {
@@ -28,7 +30,6 @@ export class WebApiService {
 
     return request;
   }
-
 
   async GetUsers(): Promise<string> {
 
@@ -48,14 +49,22 @@ export class WebApiService {
     return request;
   }
 
-  async GetLiceseUsers() : Promise<ILicenseUsers> {
+  async GetLiceseUsers(userId? : string) : Promise<ILicenseUsers> {
+    
     let token = localStorage.getItem("token");
     let headers = new HttpHeaders().append('Authorization', 'Bearer ' + token).append('Content-Type', 'text/json')
+    let params = new HttpParams();
+
     let connection = this.BASE_URL + "/licenseusers";
+
+    if(userId) {
+      params = params.append('UserId', userId);
+    }
 
     let request = await  this.http.get(connection, {
       headers: headers,
       observe: 'body',
+      params: params,
       withCredentials: true,
       reportProgress: false,
       responseType: 'text'
@@ -64,6 +73,23 @@ export class WebApiService {
     return request; 
   }
 
+  GetLiceseFile(Id : string) {
+    
+    let token = localStorage.getItem("token");
+    let headers = new HttpHeaders().append('Authorization', 'Bearer ' + token).append('Content-Type', 'text/json')
+    let connection = this.BASE_URL + `/licensefile/${Id}`;
+    
+    this.http.get(connection, {
+      headers: headers,
+      observe: 'body',
+      withCredentials: true,
+      reportProgress: false,
+      responseType: 'blob'
+    }).toPromise().then(res => {
+      this.DownloadFile(res, `license_${Id}.txt`);
+    });
+
+  }
 
   async UserExist(url: string): Promise<string> {
     let token = localStorage.getItem("token");
@@ -224,5 +250,34 @@ export class WebApiService {
       return request;
   }
 
+  /// ВПОМОГАТЕЛЬНЫЕ
+  DownloadFile(fileData : Blob | string,  FileName : string) {
+    let fileStream : Blob; /// переменная типа поток битов сохранить можно такую переменную File насленик от Blob
+    
+    /// если получили строку на ее основании создаем блоб , вызываем типовый конструктор 
+    if (typeof fileData == 'string' ) {
+      fileStream = new Blob([fileData],{ type: "text/csv" });
+    } 
+    else {
+      fileStream = fileData;
+    }
+    
+    /// скачивание происходит програмным нажатием на элемент типа линк
+    /// линк может качать имея урл и имя файла в своих атрибутах
+    /// создаем урл основанный не на адресе а на самих данных
+    let fileUrl = window.URL.createObjectURL(fileStream);
+    /// создаем и заполняем елемент
+    let link = document.createElement("a");
+    link.setAttribute("href", fileUrl);
+    link.setAttribute("download", FileName);
+    link.style.visibility = 'hidden';
+    /// добавляем его в ДОМ кликаем и удалем 
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+  }
+
   
+
 }

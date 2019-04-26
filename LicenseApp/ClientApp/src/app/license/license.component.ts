@@ -18,6 +18,7 @@ export class LicenseComponent implements OnInit, AfterViewInit {
   @Input('LicenseUserID') UserId : string;
   @Output('LicenseUserChangedEmitter') LicenseUserChangedEmitter = new EventEmitter() ;
   @Output('LicenseUserMessageEmitter') LicenseUserMessageEmitter = new EventEmitter() ;
+  @Output('LicenseUserMouseOwerEmitter') LicenseUserMouseOwerEmitter = new EventEmitter() ;
   form: FormGroup;
   inDisabledState: boolean = true;
   isDeleted: boolean = false;
@@ -26,7 +27,6 @@ export class LicenseComponent implements OnInit, AfterViewInit {
   constructor(private WebApi: WebApiService) { }
 
   ngOnInit() {
-    console.log(this.User);
     this.form = new FormGroup({
       Id: new FormControl(this.UserId),
       Email: new FormControl(this.User.Contact.Email, Validators.required, UniqnessEmail(this.WebApi)),
@@ -84,13 +84,15 @@ export class LicenseComponent implements OnInit, AfterViewInit {
   }
 
   UploadFormToUser() {
-    setTimeout(() => {
+    
       this.UserId = this.Id.value;
       this.User.Contact.Email = this.Email.value;
       this.User.Contact.UserName = this.UserName.value;
       this.User.Contact.PhoneNumber = this.PhoneNumber.value;
       this.User.Contact.Organisation = this.Organisation.value;
-    }, 10);
+      this.LicenseUserChangedEmitter.emit({id : this.UserId, LicenseUserData : this.User});
+      
+    
   }
 
   SwichDisableState() {
@@ -210,12 +212,12 @@ export class LicenseComponent implements OnInit, AfterViewInit {
           this.Id.patchValue("");
           this.UserId = "";  
           this.SwichDisableState();
-          this.ShowPopMessage("Changes saved",false);
+          this.AddFormateMessage("Changes saved", MessageSate.Sucsess);
+          
         })
         .catch(error => {
           this.isDeleted = false;
-          this.ShowPopMessage('не обновили пользователя '+JSON.stringify(error.error),true)
-        
+          this.AddFormateMessage('не обновили пользователя '+JSON.stringify(error.error), MessageSate.Error);
         })
       } 
       else {
@@ -230,7 +232,8 @@ export class LicenseComponent implements OnInit, AfterViewInit {
   }    
 
   Onmouseover() {
-    this.LicenseUserChangedEmitter.emit(this.UserId);
+    if(!this.UserId) return;
+    this.LicenseUserMouseOwerEmitter.emit(this.UserId);
   }
   
   

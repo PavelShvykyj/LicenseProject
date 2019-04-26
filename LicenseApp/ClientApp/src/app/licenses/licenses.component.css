@@ -70,6 +70,9 @@
 
 ::-webkit-scrollbar {
     width: 5%;
+    max-width: 10px;
+    min-width: 4px;
+    padding-right: 1px;
 }
 
 ::-webkit-scrollbar-thumb {

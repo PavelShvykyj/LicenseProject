@@ -1,0 +1,22 @@
+<div class="card w-100">
+  <div class="card-header text-white bg-secondary py-1">
+    License {{ LicenseInfo.Id }} info: 
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item py-2">Name: {{ LicenseInfo.Name }}}  </li>
+    <li class="list-group-item py-2">exp: {{LicenseInfo.Expired | date: 'dd/MM/yyyy' }} </li>
+    <li class="list-group-item py-2"> Demo: 
+        <i *ngIf="!LicenseInfo.DemoMode"class="far fa-window-close text-primary"></i> 
+        <i *ngIf="LicenseInfo.DemoMode" class="far fa-check-square text-danger"></i>
+    </li>    
+    <li class="list-group-item py-1 px-1">
+        <a [routerLink]="['/licenseinfo',LicenseInfo.UserId,LicenseInfo.Id]" routerLinkActive="link-active" [routerLinkActiveOptions]='{ exact: true }'  class="btn btn-light w-100 p-0 my-0"> Edit </a>
+    </li>
+
+  </ul>
+
+  <div class="card-footer text-muted">
+      owner: {{LicenseUserInfo.UserName}}
+  </div>
+</div>
+

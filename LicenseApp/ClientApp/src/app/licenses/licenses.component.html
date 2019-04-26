@@ -33,10 +33,11 @@
                 </button>
             </li>
           
+            
+
             <li class="nav-item form-width-inherit">
-              <button class="btn btn-dark form-width-inherit  px-0"> 
-                <span *ngIf="isExpanded">Delete</span> 
-                <span *ngIf="!isExpanded">Del.</span> 
+              <button class="btn btn-dark form-width-inherit  px-0" type="button" (click)="Test()"> 
+                Test
               </button>
             </li>
 
@@ -106,24 +107,16 @@
             [LicenseUserData]="licenseUsersFiltered.UserState[LicenseUserID]"
             [LicenseUserID]="LicenseUserID"
             (LicenseUserMessageEmitter)="OnLicenseUserMessage($event)"
-            (LicenseUserChangedEmitter)="OnLicenseUserChanged($event)">
+            (LicenseUserChangedEmitter)="OnLicenseUserChanged($event)"
+            (LicenseUserMouseOwerEmitter)="OnLicenseUserMouseOwer($event)"  
+            >
           </app-license>
           </ng-container>
         
         </div>
         <!-- info panel -->
         <div  class="col-2  d-flex flex-column align-items-start justify-content-between px-1 w-100 scrollable-y form-hait-inherit-90">
-          
-          <div *ngFor="let LicenseInfo of licenseUsers.UserState[curentLicenseUserId].Licenses" class="card w-100 font-s-70 mb-1 ">
-            <div class="card-header text-white bg-secondary py-1">
-              License 1 info: 
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item py-2">exp: 2019.03.12</li>
-              <li class="list-group-item py-2">Demo: no</li>
-              <li class="list-group-item py-2">Name: test  </li>
-            </ul>
-          </div>
+          <license-card *ngFor="let LicenseInfo of licenseUsers.UserState[curentLicenseUserId].Licenses" [LicenseInfo]='LicenseInfo' [LicenseUserInfo]='licenseUsers.UserState[curentLicenseUserId].Contact'  class="w-100 font-s-70 mb-1" ></license-card>
 
         </div>
       </div>      

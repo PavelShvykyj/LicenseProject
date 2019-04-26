@@ -10,6 +10,7 @@ using AutoMapper;
 using LicenseApp.Controllers.DTO;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.IO;
 
 namespace LicenseApp.Controllers
 {
@@ -499,11 +500,18 @@ namespace LicenseApp.Controllers
         [Route("/api/licenseusers")]
         public async Task<IActionResult> GetLicenseUsers()
         {
+
+            string UserId = Request.Query.FirstOrDefault(q => q.Key == "UserId").Value;
+            Boolean UserIdEmpty = string.IsNullOrEmpty(UserId);
+
+
             var subquery = from ur in _context.UserRoles
-                           join r in _context.Roles 
+                           join r in _context.Roles
                            on ur.RoleId equals r.Id
-                           where r.Name == "LicenseUser"
+                           where r.Name == "LicenseUser" &&
+                           (UserIdEmpty || ur.UserId == UserId)
                            select new { ur.UserId, r.Name };
+
 
 
             // var query = from u in _context.Users
@@ -534,6 +542,39 @@ namespace LicenseApp.Controllers
 
             LicenseDTO licenseDTO = _autoMapper.Map<License, LicenseDTO>(license);
             return Ok(licenseDTO);
+        }
+
+        [HttpGet]
+        [Route("/api/User/{Userid}")]
+        public async Task<IActionResult> GetUser(string Userid)
+        {
+
+            User currUser = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == Userid);
+
+            
+            if (currUser == null)
+                return NotFound("User not found "+ Userid);
+
+            ContactDTO ContactData = _autoMapper.Map<User, ContactDTO>(currUser);
+            return Ok(ContactData);
+        }
+
+
+        [HttpGet]
+        [Route("/api/licensefile/{licenseid}")]
+        public async Task<IActionResult> GetLicenseFile(int licenseid)
+        {
+            License license = await _context.Licenses.SingleOrDefaultAsync(l => l.Id == licenseid);
+            if (license == null)
+                return NotFound();
+
+            var licenseUser = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == license.UserId);
+            string token = await _jwtgenerator.GenerateJwtToken(licenseUser);
+
+            /// используем using что бы автоматически закрыть поток (мы не можем написать tokenStream.close() после return наверно...
+            using (MemoryStream tokenStream = new MemoryStream(System.Text.Encoding.ASCII.GetBytes(token))) { 
+                return File(tokenStream, "text/plain","license.txt");
+            }
         }
 
 

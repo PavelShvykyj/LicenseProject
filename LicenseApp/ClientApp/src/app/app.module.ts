@@ -30,6 +30,8 @@ import { DisableFormcontrolDirective } from './directives/disable-formcontrol.di
 import { CoWokerRolesComponent } from './co-woker-roles/co-woker-roles.component';
 import { LicensesResolver } from "./resolvers/licenses.resolver";
 import { FilterInputComponent } from './filter-input/filter-input.component';
+import { LicenseInfoComponent } from './license-info/license-info.component';
+import { LicenseCardComponent } from './license-card/license-card.component';
 
 
 @NgModule({
@@ -49,7 +51,9 @@ import { FilterInputComponent } from './filter-input/filter-input.component';
     RemoveSymbolsDirective,
     DisableFormcontrolDirective,
     CoWokerRolesComponent,
-    FilterInputComponent
+    FilterInputComponent,
+    LicenseInfoComponent,
+    LicenseCardComponent
   ],
   
   imports: [
@@ -76,7 +80,7 @@ import { FilterInputComponent } from './filter-input/filter-input.component';
       { path: 'user/:userId', component: CoWokerComponent, canActivate : [AdminGuard]},
       { path: 'licenses', component: LicensesComponent, canActivate : [AuthGuard] , resolve : {key : LicensesResolver }  },
       { path: 'license/:licenseId', component: LicenseComponent, canActivate : [AuthGuard]   },
-
+      { path: 'licenseinfo/:userId/:licenseId', component: LicenseInfoComponent, canActivate : [AuthGuard], resolve : {key : LicensesResolver }   },
     ]
     //, {useHash : true} 
     )
