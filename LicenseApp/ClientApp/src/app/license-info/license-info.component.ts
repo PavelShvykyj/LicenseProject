@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ILicenseUserData, ILicenseUsers, ILicense } from '../Interfaces/IUserData';
 import { combineLatest } from 'rxjs';
+import { WebApiService } from '../web-api.service';
 
 
 @Component({
@@ -17,8 +18,10 @@ export class LicenseInfoComponent implements OnInit {
   LicenseId: number;
   LicenseUserState: ILicenseUsers
   Licenses: Array<ILicense>;
+  incomeURL : string;
+  isExpanded : boolean = true;
 
-  constructor(private rout: ActivatedRoute) {
+  constructor(private rout: ActivatedRoute, private WebApi: WebApiService) {
     this.form = new FormGroup({
       Id: new FormControl(),
       Name: new FormControl(),
@@ -28,6 +31,8 @@ export class LicenseInfoComponent implements OnInit {
       DataLifeDurationInDemo: new FormControl(),
       UserId: new FormControl()
     });
+
+    rout.queryParams.subscribe(qp => {this.incomeURL = qp.url });
 
     combineLatest(rout.data, rout.params).subscribe(
       params => {
@@ -46,6 +51,16 @@ export class LicenseInfoComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.form);
+  }
+
+
+////  ************************  PANEL BUTTONS *********************
+  Expanded() {
+    this.isExpanded = !this.isExpanded;
+  }
+
+  Download() {
+    this.WebApi.GetLiceseFile(this.LicenseId.toString());
   }
 
 

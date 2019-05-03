@@ -1,3 +1,147 @@
-<p>
-  license-info works!
-</p>
+<div class="container form-hait-defoult">
+  <div class="row form-hait-inherit border border-dark bg bg-dark">
+    <!-- PANNEL COL  -->
+    <div class="form-hait-inherit p-0 " [ngClass]="{'col-auto': !isExpanded, 'col-2' : isExpanded}">
+
+      <div class=" d-flex flex-column  form-hait-inherit form-width-inherit  bg bg-dark">
+        <!-- toggle button  -->
+        <nav class="navbar form-width-inherit align-items-start justify-content-end bg-dark navbar-dark  border-bottom border-secondary">
+          <div class="nav-item">
+            <button class="navbar-toggler" type="button" (click)="Expanded()">
+              <i [ngClass]="{
+                'fas': true,
+                'fa-angle-left': isExpanded,
+                'fa-angle-right': !isExpanded
+                 }">
+              </i>
+            </button>
+          </div>
+        </nav>
+
+        <!-- action buttons  -->
+        <nav class="navbar flex-grow-1  form-width-inherit scrollable align-items-start justify-content-stretch  navbar-dark px-0 border-bottom border-secondary">
+          <ul class="navbar-nav px-0 form-width-inherit ">
+            
+            <li class="nav-item form-width-inherit">
+              <button class="btn btn-dark form-width-inherit  px-0" (click)="Download()"> 
+                  <span *ngIf="isExpanded">Download</span> 
+                  <span *ngIf="!isExpanded" class="font-s-70">Dwn. lic. </span> 
+                </button>
+            </li>
+
+            
+  
+
+          </ul>
+        </nav>
+
+        <!-- navigations  -->
+        <nav class="navbar flex-grow-1 form-hait-inherit-50 form-width-inherit scrollable  align-items-start justify-content-center bg-dark navbar-dark  px-0 border-bottom border-secondary">
+          <ul class="navbar-nav form-width-inherit ">
+            <li *ngFor="let item of Licenses" class="nav-item ">
+              <a [routerLink]="['/licenseinfo',item.UserId,item.Id]" routerLinkActive="link-active" [routerLinkActiveOptions]='{ exact: true }' class="nav-link pl-4" role="button"> {{ item.Id }} <span *ngIf="isExpanded"> {{ item.Name }} </span></a>
+            </li>
+          </ul>
+        </nav> 
+
+        <!-- Info block  -->
+        <nav class="navbar flex-grow-1 form-hait-inherit-35 form-width-inherit scrollable  align-items-start justify-content-center bg-dark navbar-dark py-1 px-0 border-bottom border-secondary">
+          <messages [hidden]="!isExpanded" [historyLenth]=4 class="form-width-inherit  justify-content-center p-1"></messages>
+        </nav>
+
+         <!-- little buttons  -->
+         <div class=" bg bg-dark d-flex justify-content-between" [ngClass]="{'flex-column': !isExpanded}" role="group">
+          <button type="button" class="btn btn-dark form-width-inherit"><i class="fas fa-sign-out-alt" (click)="Return()"></i></button>
+          <button type="button" class="btn btn-dark form-width-inherit"><i class="fas fa-print"></i></button>
+          <button type="button" class="btn btn-dark form-width-inherit"><i class="fas fa-sync-alt" (click)="Update()"></i></button>
+        </div>
+     
+      </div>
+
+ 
+    </div>
+    
+    <!-- BODY COL  -->
+    <div class="form-hait-inherit p-0 d-flex flex-column w-100 bg-amber-50" [ngClass]="{'col': !isExpanded , 'col-10' : isExpanded}">
+      <!-- form license  -->
+      <div class="row py-1 mx-0  w-100 ">
+        <div class="col-auto d-flex  align-items-center w-100">
+            <div class="card w-100">
+                <div class="card-header text-white bg-secondary py-1">
+                  License {{ LicenseId }} info: 
+                </div>
+                <form [formGroup]="form">
+                  <input formControlName="Id" hidden  type="text" class="form-control" placeholder="Id">  
+                  <input formControlName="UserId" hidden  type="text" class="form-control" placeholder="UserId">  
+                  <ul class="list-group list-group-flush">
+                        <li class="list-group-item py-2">
+                            <div class="form-group row mb-0 align-items-center">
+                                <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                <div class="col-sm-10">
+                                  <input formControlName="Name" type="text" class="form-control form-control-sm" id="inputName" placeholder="Name">
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="list-group-item py-2">
+                          <div class="form-group row mb-0 align-items-center">
+                              <label for="inputExpired" class="col-sm-2 col-form-label">Expired</label>
+                              <div class="col-sm-10">
+                                <input formControlName="Expired" type="datetime-local" class="form-control form-control-sm" id="inputExpired" placeholder="Expired">
+                              </div>
+                          </div>
+                        </li>
+                       
+                        <li class="list-group-item py-2">
+                            <div class="form-group row mb-0 align-items-center">
+                                <label for="inputQuontity" class="col-sm-2 col-form-label">Quontity</label>
+                                <div class="col-sm-10">
+                                  <input formControlName="Quontity" type="text" class="form-control form-control-sm" id="inputQuontity" placeholder="Quontity">
+                                </div>
+                            </div>
+                        </li>                        
+
+                        <li class="list-group-item py-2">
+                            <div class="form-group row mb-0 align-items-center justify-content-between">
+                                <label for="inputDataLifeDurationInDemo" class="col-sm-auto col-form-label">Data life duration in demo</label>
+                                <div class="col-sm-5">
+                                  <input formControlName="DataLifeDurationInDemo" type="text" class="form-control form-control-sm" id="inputDataLifeDurationInDemo" placeholder="DataLifeDurationInDemo">
+                                </div>
+                            </div>
+                        </li>                        
+                       
+                        <li class="list-group-item py-2"> 
+                            <div class="form-check">
+                                <input  formControlName="DemoMode" class="form-check-input" type="checkbox"  id="inputDemoMode">
+                                <label class="form-check-label" for="inputDemoMode">
+                                    DemoMode
+                                </label>
+                              </div> 
+                        </li>    
+                  
+                        <li class="list-group-item py-2">
+                            <div class="form-group row mb-0 align-items-center justify-content-end">
+                                <div class="btn-group mr-3" role="group" >
+                                    <button type="button" class="btn btn-secondary">Save</button>
+                                    <button type="button" class="btn btn-secondary">Cancel</button>
+                                </div>                                  
+                                
+                            </div>
+                        </li>                        
+
+
+
+                    </ul>
+                </form>
+              
+                <div class="card-footer text-muted">
+                    owner: {{ LicenseUserState.UserState[LicenseUserState.UserKeys[0]].Contact.UserName  }}
+                </div>
+              </div>
+          
+        
+        </div>
+      </div> 
+    </div>
+  </div>
+</div>
